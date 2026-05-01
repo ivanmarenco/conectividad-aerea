@@ -1,0 +1,696 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2487.7">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="es"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1">&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1">&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
+<p class="p1">&lt;title&gt;Conectividad Aérea&lt;/title&gt;</p>
+<p class="p1">&lt;script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"&gt;&lt;/script&gt;</p>
+<p class="p1">&lt;script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"&gt;&lt;/script&gt;</p>
+<p class="p1">&lt;link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"&gt;</p>
+<p class="p1">&lt;style&gt;</p>
+<p class="p1">*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}</p>
+<p class="p1">body{font-family:'DM Sans',system-ui,sans-serif;background:#f1f5f9;color:#1e293b;min-height:100vh}</p>
+<p class="p2"><br></p>
+<p class="p1">/* TOPBAR */</p>
+<p class="p1">.topbar{background:#fff;border-bottom:1px solid #e2e8f0;padding:14px 24px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;position:sticky;top:0;z-index:100;box-shadow:0 1px 4px rgba(0,0,0,.06)}</p>
+<p class="p1">.topbar h1{font-size:16px;font-weight:800;color:#1e293b;white-space:nowrap}</p>
+<p class="p1">#cityInput{flex:1;min-width:160px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:8px;color:#1e293b;font-size:14px;padding:9px 14px;outline:none;font-family:inherit;transition:border-color .2s}</p>
+<p class="p1">#cityInput:focus{border-color:#93c5fd}</p>
+<p class="p1">.btn-primary{background:#1d4ed8;border:none;border-radius:8px;color:#fff;padding:9px 20px;font-size:14px;cursor:pointer;font-weight:700;font-family:inherit;white-space:nowrap;transition:opacity .2s}</p>
+<p class="p1">.btn-primary:disabled{opacity:.5;cursor:not-allowed}</p>
+<p class="p1">.btn-green{background:#059669;border:none;border-radius:8px;color:#fff;padding:9px 16px;font-size:13px;cursor:pointer;font-weight:600;font-family:inherit;white-space:nowrap;display:none}</p>
+<p class="p1">.btn-outline{background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:8px;color:#64748b;padding:9px 14px;font-size:13px;cursor:pointer;font-family:inherit;margin-left:auto}</p>
+<p class="p2"><br></p>
+<p class="p1">/* CONFIG */</p>
+<p class="p1">.config-panel{background:#eff6ff;border-bottom:1px solid #bfdbfe;padding:14px 24px;display:none;gap:12px;align-items:center;flex-wrap:wrap}</p>
+<p class="p1">.config-panel.open{display:flex}</p>
+<p class="p1">.config-panel input{flex:1;min-width:200px;background:#fff;border:1.5px solid #bfdbfe;border-radius:8px;color:#1e293b;font-size:13px;padding:8px 12px;outline:none;font-family:inherit}</p>
+<p class="p1">.config-panel label{font-size:12px;color:#1d4ed8;font-weight:600;white-space:nowrap}</p>
+<p class="p1">.btn-save{background:#1d4ed8;border:none;border-radius:7px;color:#fff;padding:8px 16px;font-size:12px;cursor:pointer;font-weight:600;font-family:inherit}</p>
+<p class="p2"><br></p>
+<p class="p1">/* ERROR / INFO */</p>
+<p class="p1">.msg-bar{margin:14px 24px;border-radius:8px;padding:10px 16px;font-size:13px;display:none}</p>
+<p class="p1">.msg-bar.show{display:block}</p>
+<p class="p1">.msg-bar.error{background:#fef2f2;border:1px solid #fecaca;color:#dc2626}</p>
+<p class="p1">.msg-bar.info{background:#eff6ff;border:1px solid #bfdbfe;color:#1d4ed8}</p>
+<p class="p2"><br></p>
+<p class="p1">/* EMPTY */</p>
+<p class="p1">.empty{text-align:center;padding:100px 20px;color:#94a3b8}</p>
+<p class="p1">.empty .icon{font-size:52px;margin-bottom:16px}</p>
+<p class="p1">.empty h2{font-size:18px;font-weight:700;color:#64748b;margin-bottom:8px}</p>
+<p class="p1">.empty p{font-size:13px;margin-bottom:20px}</p>
+<p class="p2"><br></p>
+<p class="p1">/* MAIN */</p>
+<p class="p1">.main{padding:20px 24px;max-width:1100px;margin:0 auto;display:none}</p>
+<p class="p1">.main.show{display:block}</p>
+<p class="p2"><br></p>
+<p class="p1">/* HEADER CARD */</p>
+<p class="p1">.header-card{background:#1e3a8a;border-radius:16px;padding:26px 30px;margin-bottom:18px;color:#fff}</p>
+<p class="p1">.header-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;margin-bottom:20px}</p>
+<p class="p1">.header-card .meta{font-size:12px;color:#93c5fd;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}</p>
+<p class="p1">.header-card h2{font-size:30px;font-weight:800;margin-bottom:4px}</p>
+<p class="p1">.header-card .sub{font-size:13px;color:#93c5fd}</p>
+<p class="p1">.updated-tag{font-size:11px;color:#60a5fa;background:rgba(255,255,255,.1);border-radius:8px;padding:6px 12px;white-space:nowrap;align-self:flex-start}</p>
+<p class="p1">.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px}</p>
+<p class="p1">.stat-box{background:rgba(255,255,255,.1);border-radius:12px;padding:14px 16px}</p>
+<p class="p1">.stat-box .val{font-size:26px;font-weight:800;line-height:1}</p>
+<p class="p1">.stat-box .lbl{font-size:11px;color:#93c5fd;margin-top:5px;font-weight:600}</p>
+<p class="p1">.stat-box .sub2{font-size:10px;color:#60a5fa;margin-top:2px}</p>
+<p class="p2"><br></p>
+<p class="p1">/* TABS */</p>
+<p class="p1">.tabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;align-items:center}</p>
+<p class="p1">.tab{background:#fff;border:1.5px solid #e2e8f0;border-radius:8px;color:#64748b;padding:8px 18px;font-size:13px;cursor:pointer;font-weight:600;font-family:inherit;transition:all .15s}</p>
+<p class="p1">.tab.active{background:#1d4ed8;border-color:#1d4ed8;color:#fff}</p>
+<p class="p1">.tab-hint{font-size:11px;color:#94a3b8;margin-left:4px}</p>
+<p class="p2"><br></p>
+<p class="p1">/* PANELS */</p>
+<p class="p1">.panel{background:#fff;border-radius:16px;padding:24px;box-shadow:0 1px 4px rgba(0,0,0,.06);display:none}</p>
+<p class="p1">.panel.active{display:block}</p>
+<p class="p1">.panel-title{font-size:18px;font-weight:700;color:#1e293b;margin-bottom:4px}</p>
+<p class="p1">.panel-sub{font-size:13px;color:#94a3b8;margin-bottom:20px}</p>
+<p class="p2"><br></p>
+<p class="p1">/* MAP */</p>
+<p class="p1">.map-wrap{border:1px solid #e2e8f0;border-radius:12px;overflow:hidden}</p>
+<p class="p1">.map-legend{padding:10px 18px;background:#fff;border-bottom:1px solid #f1f5f9;display:flex;gap:20px;align-items:center;flex-wrap:wrap}</p>
+<p class="p1">.map-legend span{font-size:12px;font-weight:600;display:flex;align-items:center;gap:6px}</p>
+<p class="p1">.dot{width:11px;height:11px;border-radius:50%;display:inline-block}</p>
+<p class="p1">.line{width:26px;height:3px;border-radius:2px;display:inline-block}</p>
+<p class="p1">.map-hint{font-size:11px;color:#94a3b8;margin-left:auto}</p>
+<p class="p1">#map-svg{display:block;width:100%}</p>
+<p class="p2"><br></p>
+<p class="p1">/* SECTION */</p>
+<p class="p1">.section-mb{margin-bottom:28px}</p>
+<p class="p1">.section-hdr{display:flex;align-items:center;gap:8px;margin-bottom:12px;padding-bottom:8px}</p>
+<p class="p1">.dot2{width:14px;height:14px;border-radius:3px;flex-shrink:0}</p>
+<p class="p2"><br></p>
+<p class="p1">/* ROUTE ROWS */</p>
+<p class="p1">.route-row{display:grid;grid-template-columns:28px 60px 1fr 110px 160px;gap:0;align-items:center;padding:9px 12px;border-radius:8px;margin-bottom:2px}</p>
+<p class="p1">.route-row:nth-child(odd){background:#fff}</p>
+<p class="p1">.route-row:nth-child(even){background:#fafafa}</p>
+<p class="p1">.route-num{font-size:11px;color:#cbd5e1;font-weight:600}</p>
+<p class="p1">.route-iata{font-size:12px;color:#94a3b8;font-weight:600}</p>
+<p class="p1">.route-city{font-size:13px;font-weight:600;color:#1e293b}</p>
+<p class="p1">.route-airlines{font-size:11px;color:#94a3b8;margin-top:1px}</p>
+<p class="p1">.route-weekly{text-align:right;padding-right:16px}</p>
+<p class="p1">.route-weekly .num{font-size:18px;font-weight:800}</p>
+<p class="p1">.route-weekly .lbl{font-size:10px;color:#94a3b8}</p>
+<p class="p1">.bar-bg{height:8px;border-radius:4px;overflow:hidden}</p>
+<p class="p1">.bar-fill{height:100%;border-radius:4px;transition:width .4s}</p>
+<p class="p2"><br></p>
+<p class="p1">/* TABLE */</p>
+<p class="p1">.tbl{width:100%;border-collapse:collapse;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden}</p>
+<p class="p1">.tbl thead tr{background:#f8fafc}</p>
+<p class="p1">.tbl thead th{padding:9px 14px;font-size:11px;color:#94a3b8;font-weight:700;text-transform:uppercase;letter-spacing:.5px;text-align:left;border:1px solid #e2e8f0}</p>
+<p class="p1">.tbl thead th.c{text-align:center}</p>
+<p class="p1">.tbl tbody tr:nth-child(odd){background:#fff}</p>
+<p class="p1">.tbl tbody tr:nth-child(even){background:#fafafa}</p>
+<p class="p1">.tbl tbody td{padding:12px 14px;font-size:14px;color:#1e293b;border:1px solid #e2e8f0;border-top:none}</p>
+<p class="p1">.tbl tbody td.c{text-align:center}</p>
+<p class="p1">.tbl-weekly{font-size:18px;font-weight:800;color:#1d4ed8}</p>
+<p class="p1">.tbl-day{font-size:10px;color:#94a3b8}</p>
+<p class="p1">.tbl-dom{color:#f97316;font-weight:700;font-size:15px}</p>
+<p class="p1">.tbl-intl{color:#2563eb;font-weight:700;font-size:15px}</p>
+<p class="p1">.tbl-bar-bg{height:10px;background:#f1f5f9;border-radius:5px;overflow:hidden}</p>
+<p class="p1">.tbl-bar-fill{height:100%;background:linear-gradient(90deg,#1d4ed8,#60a5fa);border-radius:5px}</p>
+<p class="p2"><br></p>
+<p class="p1">/* SPINNER */</p>
+<p class="p1">.spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite;vertical-align:middle;margin-right:6px}</p>
+<p class="p1">@keyframes spin{to{transform:rotate(360deg)}}</p>
+<p class="p2"><br></p>
+<p class="p1">@media(max-width:600px){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.topbar{padding:10px 14px}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.main{padding:14px}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.header-card{padding:18px}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.route-row{grid-template-columns:24px 46px 1fr 80px}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.route-row&gt;div:last-child{display:none}</p>
+<p class="p1">}</p>
+<p class="p1">&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;!-- TOPBAR --&gt;</p>
+<p class="p1">&lt;div class="topbar"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;span style="font-size:20px"&gt;✈&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;h1&gt;Conectividad Aérea&lt;/h1&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;input type="text" id="cityInput" placeholder="Ciudad de origen (ej: Buenos Aires)..."/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;button class="btn-primary" id="searchBtn" onclick="search()"&gt;Buscar&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;button class="btn-green" id="updateBtn" onclick="updateData()"&gt;⟳ Actualizar&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;button class="btn-outline" onclick="toggleConfig()"&gt;⚙ API Key&lt;/button&gt;</p>
+<p class="p1">&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;!-- CONFIG --&gt;</p>
+<p class="p1">&lt;div class="config-panel" id="configPanel"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;label&gt;AirLabs API Key&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;input type="password" id="apiKeyInput" placeholder="Pegá tu API key de airlabs.co"/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;span style="font-size:12px;color:#60a5fa"&gt;→ Gratis en &lt;strong&gt;airlabs.co&lt;/strong&gt;&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;button class="btn-save" onclick="saveKey()"&gt;Guardar&lt;/button&gt;</p>
+<p class="p1">&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;!-- MESSAGES --&gt;</p>
+<p class="p1">&lt;div class="msg-bar error" id="errorBar"&gt;&lt;/div&gt;</p>
+<p class="p1">&lt;div class="msg-bar info" id="infoBar"&gt;&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;!-- EMPTY --&gt;</p>
+<p class="p1">&lt;div class="empty" id="emptyState"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="icon"&gt;✈&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;h2&gt;Ingresá una ciudad para ver su conectividad aérea&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;p&gt;Necesitás una API key gratuita de &lt;strong style="color:#1d4ed8"&gt;airlabs.co&lt;/strong&gt;&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;button class="btn-primary" onclick="toggleConfig()"&gt;⚙ Configurar API Key&lt;/button&gt;</p>
+<p class="p1">&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;!-- MAIN --&gt;</p>
+<p class="p1">&lt;div class="main" id="mainContent"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="header-card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="header-top"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="meta"&gt;Destinos con vuelo directo desde&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;h2 id="destCity"&gt;—&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="sub" id="destSub"&gt;—&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="updated-tag" id="updatedTag" style="display:none"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="stats-grid" id="statsGrid"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="tabs"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;button class="tab active" onclick="showTab('map',this)"&gt;🗺 Mapa&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;button class="tab" onclick="showTab('cities',this)"&gt;🏙 Por ciudad&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;button class="tab" onclick="showTab('airlines',this)"&gt;✈ Por aerolínea&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;span class="tab-hint"&gt;Screenshot de cada vista → pegá en tu presentación&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="panel active" id="panel-map"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="map-wrap"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="map-legend"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;span style="color:#f97316"&gt;&lt;span class="line" style="background:#f97316"&gt;&lt;/span&gt;Domésticos&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;span style="color:#2563eb"&gt;&lt;span class="line" style="background:#2563eb"&gt;&lt;/span&gt;Internacionales&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;span style="color:#dc2626"&gt;&lt;span class="dot" style="background:#dc2626"&gt;&lt;/span&gt;Origen&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="map-hint"&gt;Grosor = vuelos/semana&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;svg id="map-svg"&gt;&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="panel" id="panel-cities"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="panel-title"&gt;Destinos · vuelos por semana&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="panel-sub" id="citiesSub"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="citiesContent"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="panel" id="panel-airlines"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="panel-title"&gt;Aerolíneas · vuelos por semana&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="panel-sub" id="airlinesSub"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="airlinesContent"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p1">&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;script&gt;</p>
+<p class="p1">// ── STATE ──────────────────────────────────────────────────────────────────</p>
+<p class="p1">const state = { apiKey:'', airport:null, routes:[], lastUpdated:null };</p>
+<p class="p2"><br></p>
+<p class="p1">window.onload = () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const k = localStorage.getItem('airlabs_key');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if (k) { state.apiKey = k; document.getElementById('apiKeyInput').value = k; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('cityInput').addEventListener('keydown', e =&gt; { if(e.key==='Enter') search(); });</p>
+<p class="p1">};</p>
+<p class="p2"><br></p>
+<p class="p1">// ── UI ─────────────────────────────────────────────────────────────────────</p>
+<p class="p1">function toggleConfig() { document.getElementById('configPanel').classList.toggle('open'); }</p>
+<p class="p2"><br></p>
+<p class="p1">function saveKey() {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const k = document.getElementById('apiKeyInput').value.trim();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if (!k) return;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>state.apiKey = k;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>localStorage.setItem('airlabs_key', k);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('configPanel').classList.remove('open');</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function showMsg(type, msg) {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>['errorBar','infoBar'].forEach(id =&gt; { document.getElementById(id).classList.remove('show'); });</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const el = document.getElementById(type === 'error' ? 'errorBar' : 'infoBar');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>el.textContent = msg; el.classList.add('show');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if (type !== 'error') setTimeout(() =&gt; el.classList.remove('show'), 5000);</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function setLoading(yes) {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const btn = document.getElementById('searchBtn');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>btn.disabled = yes;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>btn.innerHTML = yes ? '&lt;span class="spinner"&gt;&lt;/span&gt;Buscando...' : 'Buscar';</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function showTab(name, el) {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.querySelectorAll('.panel').forEach(p =&gt; p.classList.remove('active'));</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.querySelectorAll('.tab').forEach(t =&gt; t.classList.remove('active'));</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('panel-' + name).classList.add('active');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>el.classList.add('active');</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">// ── API ─────────────────────────────────────────────────────────────────────</p>
+<p class="p1">async function apiGet(endpoint) {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const sep = endpoint.includes('?') ? '&amp;' : '?';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const r = await fetch(`https://airlabs.co/api/v9/${endpoint}${sep}api_key=${state.apiKey}`);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const d = await r.json();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if (d.error) throw new Error(d.error.message || JSON.stringify(d.error));</p>
+<p class="p1"><span class="Apple-converted-space">  </span>return d;</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">// Mapa de ciudades comunes a IATA para evitar llamada a suggest</p>
+<p class="p1">const CITY_TO_IATA = {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>'buenos aires':['EZE','AEP'],'ezeiza':'EZE','aeroparque':'AEP',</p>
+<p class="p1"><span class="Apple-converted-space">  </span>'madrid':'MAD','barcelona':'BCN','miami':'MIA','new york':'JFK',</p>
+<p class="p1"><span class="Apple-converted-space">  </span>'nueva york':'JFK','london':'LHR','londres':'LHR','paris':'CDG',</p>
+<p class="p1"><span class="Apple-converted-space">  </span>'paris':'CDG','frankfurt':'FRA','amsterdam':'AMS','rome':'FCO',</p>
+<p class="p1"><span class="Apple-converted-space">  </span>'roma':'FCO','dubai':'DXB','singapore':'SIN','singapur':'SIN',</p>
+<p class="p1"><span class="Apple-converted-space">  </span>'sydney':'SYD','tokio':'NRT','tokyo':'NRT','lima':'LIM',</p>
+<p class="p1"><span class="Apple-converted-space">  </span>'bogota':'BOG','bogotá':'BOG','santiago':'SCL','sao paulo':'GRU',</p>
+<p class="p1"><span class="Apple-converted-space">  </span>'são paulo':'GRU','montevideo':'MVD','asuncion':'ASU','asunción':'ASU',</p>
+<p class="p1"><span class="Apple-converted-space">  </span>'panama':'PTY','panamá':'PTY','mexico':'MEX','méxico':'MEX',</p>
+<p class="p1"><span class="Apple-converted-space">  </span>'ciudad de mexico':'MEX','ciudad de méxico':'MEX',</p>
+<p class="p1"><span class="Apple-converted-space">  </span>'cordoba':'COR','córdoba':'COR','mendoza':'MDZ','rosario':'ROS',</p>
+<p class="p1"><span class="Apple-converted-space">  </span>'bariloche':'BRC','salta':'SLA','iguazu':'IGR','iguazú':'IGR',</p>
+<p class="p1"><span class="Apple-converted-space">  </span>'ushuaia':'USH','tucuman':'TUC','tucumán':'TUC',</p>
+<p class="p1"><span class="Apple-converted-space">  </span>'atlanta':'ATL','los angeles':'LAX','chicago':'ORD','boston':'BOS',</p>
+<p class="p1"><span class="Apple-converted-space">  </span>'san francisco':'SFO','dallas':'DFW','washington':'DCA',</p>
+<p class="p1"><span class="Apple-converted-space">  </span>'lisbon':'LIS','lisboa':'LIS','zurich':'ZRH','zurich':'ZRH',</p>
+<p class="p1"><span class="Apple-converted-space">  </span>'vienna':'VIE','viena':'VIE','munich':'MUC','munich':'MUC',</p>
+<p class="p1"><span class="Apple-converted-space">  </span>'istanbul':'IST','istanbul':'IST','doha':'DOH',</p>
+<p class="p1"><span class="Apple-converted-space">  </span>'johannesburg':'JNB','johannesburgo':'JNB','cairo':'CAI','el cairo':'CAI',</p>
+<p class="p1"><span class="Apple-converted-space">  </span>'nairobi':'NBO','toronto':'YYZ','vancouver':'YVR','auckland':'AKL',</p>
+<p class="p1">};</p>
+<p class="p2"><br></p>
+<p class="p1">async function findAirport(city) {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const key = city.trim().toLowerCase();</p>
+<p class="p2"><span class="Apple-converted-space">  </span></p>
+<p class="p1"><span class="Apple-converted-space">  </span>// Verificar si es un código IATA directo (3 letras mayúsculas)</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if (/^[A-Z]{3}$/.test(city.trim().toUpperCase())) {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const iata = city.trim().toUpperCase();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>return { iata_code: iata, name: iata, city: iata, country_code: '' };</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p2"><span class="Apple-converted-space">  </span></p>
+<p class="p1"><span class="Apple-converted-space">  </span>// Buscar en mapa local</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const localIata = CITY_TO_IATA[key];</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if (localIata) {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const iata = Array.isArray(localIata) ? localIata[0] : localIata;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>return { iata_code: iata, name: city, city: city, country_code: '' };</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p2"><span class="Apple-converted-space">  </span></p>
+<p class="p1"><span class="Apple-converted-space">  </span>// Intentar con suggest API</p>
+<p class="p1"><span class="Apple-converted-space">  </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const d = await apiGet(`suggest?q=${encodeURIComponent(city)}`);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const airports = d.response?.airports || [];</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if (airports.length) return airports[0];</p>
+<p class="p1"><span class="Apple-converted-space">  </span>} catch(e) { /* fallback */ }</p>
+<p class="p2"><span class="Apple-converted-space">  </span></p>
+<p class="p1"><span class="Apple-converted-space">  </span>throw new Error(`No se encontró aeropuerto para "${city}". Probá con el código IATA (ej: EZE, MAD, MIA)`);</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">// MÚLTIPLES LLAMADAS por aerolínea — evita el límite de 50 resultados</p>
+<p class="p1">async function fetchRoutes(iata) {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>// Paso 1: obtener todas las aerolíneas que operan desde este aeropuerto</p>
+<p class="p1"><span class="Apple-converted-space">  </span>showMsg('info', 'Obteniendo aerolíneas...');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const firstCall = await apiGet(`routes?dep_iata=${iata}&amp;limit=50&amp;offset=0`);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const firstBatch = firstCall.response || [];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>// Recolectar aerolíneas únicas de la primera página</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const airlineCodes = new Set();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>firstBatch.forEach(r =&gt; { if (r.airline_iata &amp;&amp; !r.cs_airline_iata) airlineCodes.add(r.airline_iata); });</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>// Si no hay más páginas, retornar directo</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if (!firstCall.request?.has_more) return firstBatch;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>// Paso 2: para cada aerolínea, traer sus rutas específicas desde este aeropuerto</p>
+<p class="p1"><span class="Apple-converted-space">  </span>showMsg('info', `Cargando rutas de ${airlineCodes.size} aerolíneas...`);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const allRoutes = [...firstBatch];</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const seen = new Set(firstBatch.map(r =&gt; r.flight_iata || r.flight_number));</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>// También paginar la primera llamada por si hay más aerolíneas</p>
+<p class="p1"><span class="Apple-converted-space">  </span>let offset = 50, hasMore = firstCall.request?.has_more;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>while (hasMore) {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const d = await apiGet(`routes?dep_iata=${iata}&amp;limit=50&amp;offset=${offset}`);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const batch = d.response || [];</p>
+<p class="p1"><span class="Apple-converted-space">    </span>batch.forEach(r =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (r.airline_iata &amp;&amp; !r.cs_airline_iata) airlineCodes.add(r.airline_iata);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const key = r.flight_iata || r.flight_number;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (!seen.has(key)) { seen.add(key); allRoutes.push(r); }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>});</p>
+<p class="p1"><span class="Apple-converted-space">    </span>hasMore = d.request?.has_more === true &amp;&amp; batch.length === 50;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>offset += 50;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if (offset &gt; 500) break;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>// Paso 3: llamada por cada aerolínea para asegurar cobertura completa</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const airlineList = Array.from(airlineCodes);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>for (let i = 0; i &lt; airlineList.length; i++) {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const airline = airlineList[i];</p>
+<p class="p1"><span class="Apple-converted-space">    </span>showMsg('info', `Cargando ${airline} (${i+1}/${airlineList.length})...`);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>let off = 0, more = true;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>while (more) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const d = await apiGet(`routes?dep_iata=${iata}&amp;airline_iata=${airline}&amp;limit=50&amp;offset=${off}`);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const batch = d.response || [];</p>
+<p class="p1"><span class="Apple-converted-space">        </span>batch.forEach(r =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>if (r.cs_airline_iata) return; // ignorar codeshares</p>
+<p class="p1"><span class="Apple-converted-space">          </span>const key = (r.flight_iata || r.flight_number || '') + r.arr_iata;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>if (!seen.has(key)) { seen.add(key); allRoutes.push(r); }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p1"><span class="Apple-converted-space">        </span>more = d.request?.has_more === true &amp;&amp; batch.length === 50;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>off += 50;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if (off &gt; 200) break;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>} catch(e) { /* continuar con la siguiente aerolínea */ }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>return allRoutes;</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">// ── PROCESS ─────────────────────────────────────────────────────────────────</p>
+<p class="p1">function processRoutes(rawRoutes, originIata, domesticIATAs) {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>// Agrupar por arr_iata, deduplicar codeshares</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const byFlight = {};</p>
+<p class="p1"><span class="Apple-converted-space">  </span>rawRoutes.forEach(r =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const arr = r.arr_iata;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if (!arr || arr === originIata) return;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if (r.cs_airline_iata) return; // ignorar codeshares</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const fkey = arr + '_' + (r.flight_iata || r.flight_number || Math.random());</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if (!byFlight[fkey]) byFlight[fkey] = { arr_iata: arr, airline: r.airline_iata, days: new Set() };</p>
+<p class="p1"><span class="Apple-converted-space">    </span>(r.days || []).forEach(d =&gt; byFlight[fkey].days.add(d));</p>
+<p class="p1"><span class="Apple-converted-space">  </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>const grouped = {};</p>
+<p class="p1"><span class="Apple-converted-space">  </span>Object.values(byFlight).forEach(f =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const arr = f.arr_iata;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if (!grouped[arr]) grouped[arr] = { arr_iata: arr, airlines: new Set(), weekly: 0, domestic: domesticIATAs.has(arr) };</p>
+<p class="p1"><span class="Apple-converted-space">    </span>grouped[arr].weekly += f.days.size;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if (f.airline) grouped[arr].airlines.add(f.airline);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>return Object.values(grouped)</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.map(g =&gt; ({ ...g, airlines: Array.from(g.airlines) }))</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.sort((a,b) =&gt; b.weekly - a.weekly);</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">// ── SEARCH ─────────────────────────────────────────────────────────────────</p>
+<p class="p1">async function search() {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const city = document.getElementById('cityInput').value.trim();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if (!city) return;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if (!state.apiKey) { toggleConfig(); showMsg('error','Configurá tu API key primero.'); return; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>setLoading(true);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('errorBar').classList.remove('show');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const airport = await findAirport(city);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>showMsg('info', `Cargando rutas desde ${airport.name || airport.city} (${airport.iata_code})...`);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Si no tenemos country_code, lo obtenemos de la DB de aeropuertos</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if (!airport.country_code) {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const d = await apiGet(`airports?iata_code=${airport.iata_code}`);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const apt = (d.response || [])[0];</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if (apt) {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>airport.country_code = apt.country_code;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>airport.name = apt.name || airport.name;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>airport.city = apt.city || airport.city;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>} catch(e) {}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>const rawRoutes = await fetchRoutes(airport.iata_code);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Aeropuertos domésticos</p>
+<p class="p1"><span class="Apple-converted-space">    </span>let domesticIATAs = new Set();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (airport.country_code) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const d = await apiGet(`airports?country_code=${airport.country_code}`);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>(d.response || []).forEach(a =&gt; domesticIATAs.add(a.iata_code));</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>} catch(e) {}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>const routes = processRoutes(rawRoutes, airport.iata_code, domesticIATAs);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>state.airport = airport;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>state.routes = routes;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>state.lastUpdated = new Date();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('infoBar').classList.remove('show');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>render();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('updateBtn').style.display = 'block';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>} catch(e) {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>showMsg('error', 'Error: ' + e.message);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>} finally {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>setLoading(false);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">async function updateData() {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if (!state.airport) return;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const btn = document.getElementById('updateBtn');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>btn.textContent = '⟳ Actualizando...'; btn.disabled = true;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const rawRoutes = await fetchRoutes(state.airport.iata_code);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const domMap = {};</p>
+<p class="p1"><span class="Apple-converted-space">    </span>state.routes.forEach(r =&gt; { domMap[r.arr_iata] = r.domestic; });</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const domesticIATAs = new Set(Object.entries(domMap).filter(([,v])=&gt;v).map(([k])=&gt;k));</p>
+<p class="p1"><span class="Apple-converted-space">    </span>state.routes = processRoutes(rawRoutes, state.airport.iata_code, domesticIATAs);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>state.lastUpdated = new Date();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>render();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>} catch(e) { showMsg('error','Error al actualizar: ' + e.message); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>finally { btn.textContent = '⟳ Actualizar'; btn.disabled = false; }</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">// ── RENDER ─────────────────────────────────────────────────────────────────</p>
+<p class="p1">function render() {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('emptyState').style.display = 'none';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('mainContent').classList.add('show');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>const { airport, routes, lastUpdated } = state;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const domRoutes = routes.filter(r =&gt; r.domestic);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const intlRoutes = routes.filter(r =&gt; !r.domestic);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const totalW = routes.reduce((s,r) =&gt; s+(r.weekly||0), 0);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const domW = domRoutes.reduce((s,r) =&gt; s+(r.weekly||0), 0);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const intlW = intlRoutes.reduce((s,r) =&gt; s+(r.weekly||0), 0);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>// Airline summary</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const airMap = {};</p>
+<p class="p1"><span class="Apple-converted-space">  </span>routes.forEach(r =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>(r.airlines||[]).forEach(a =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (!airMap[a]) airMap[a] = {code:a,routes:0,domestic:0,international:0,weekly:0};</p>
+<p class="p1"><span class="Apple-converted-space">      </span>airMap[a].routes++; airMap[a].weekly += r.weekly||0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (r.domestic) airMap[a].domestic++; else airMap[a].international++;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>});</p>
+<p class="p1"><span class="Apple-converted-space">  </span>});</p>
+<p class="p1"><span class="Apple-converted-space">  </span>state.airlines = Object.values(airMap).sort((a,b) =&gt; b.weekly - a.weekly);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>// Header</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('destCity').textContent = airport.city || airport.name;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('destSub').textContent = `${airport.name} · ${airport.iata_code}`;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const tag = document.getElementById('updatedTag');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>tag.style.display = 'block';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>tag.textContent = `Al ${lastUpdated.toLocaleDateString('es-AR')} ${lastUpdated.toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'})}`;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>// Stats</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('statsGrid').innerHTML = [</p>
+<p class="p1"><span class="Apple-converted-space">    </span>{v:totalW.toLocaleString(), l:'Vuelos / semana', s:'total', c:'#fff'},</p>
+<p class="p1"><span class="Apple-converted-space">    </span>{v:routes.length, l:'Destinos directos', s:`${domRoutes.length} dom · ${intlRoutes.length} intl`, c:'#bfdbfe'},</p>
+<p class="p1"><span class="Apple-converted-space">    </span>{v:domW.toLocaleString(), l:'Vuelos domésticos', s:`${domRoutes.length} destinos`, c:'#fdba74'},</p>
+<p class="p1"><span class="Apple-converted-space">    </span>{v:intlW.toLocaleString(), l:'Vuelos internacionales', s:`${intlRoutes.length} destinos`, c:'#86efac'},</p>
+<p class="p1"><span class="Apple-converted-space">    </span>{v:state.airlines.length, l:'Aerolíneas', s:'operadoras', c:'#c4b5fd'},</p>
+<p class="p1"><span class="Apple-converted-space">  </span>].map(s =&gt; `</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="stat-box"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="val" style="color:${s.c}"&gt;${s.v}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="lbl"&gt;${s.l}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="sub2"&gt;${s.s}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;`).join('');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>renderMap();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>renderCities(domRoutes, intlRoutes);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>renderAirlines();</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">// ── MAP ─────────────────────────────────────────────────────────────────────</p>
+<p class="p1">const COORDS = {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>EZE:[-58.54,-34.82],AEP:[-58.42,-34.56],COR:[-64.52,-31.31],MDZ:[-68.79,-32.83],</p>
+<p class="p1"><span class="Apple-converted-space">  </span>ROS:[-60.78,-32.90],BRC:[-71.16,-41.15],SLA:[-65.49,-24.85],IGR:[-54.47,-25.74],</p>
+<p class="p1"><span class="Apple-converted-space">  </span>USH:[-68.30,-54.84],TUC:[-65.10,-26.84],SCL:[-70.79,-33.39],GRU:[-46.47,-23.43],</p>
+<p class="p1"><span class="Apple-converted-space">  </span>MAD:[-3.57,40.49],MIA:[-80.29,25.80],LHR:[-0.46,51.48],MVD:[-56.03,-34.84],</p>
+<p class="p1"><span class="Apple-converted-space">  </span>LIM:[-77.11,-12.02],BOG:[-74.15,4.70],ASU:[-57.52,-25.24],GIG:[-43.24,-22.81],</p>
+<p class="p1"><span class="Apple-converted-space">  </span>JFK:[-73.78,40.64],FRA:[8.57,50.03],CDG:[2.55,49.01],PTY:[-79.38,9.07],</p>
+<p class="p1"><span class="Apple-converted-space">  </span>BCN:[2.08,41.30],LIS:[-9.14,38.78],FCO:[12.24,41.80],AMS:[4.76,52.31],</p>
+<p class="p1"><span class="Apple-converted-space">  </span>MEX:[-99.07,19.44],DXB:[55.36,25.25],ATL:[-84.43,33.64],LAX:[-118.41,33.94],</p>
+<p class="p1"><span class="Apple-converted-space">  </span>ORD:[-87.90,41.98],BOS:[-71.00,42.37],SFO:[-122.38,37.62],HAV:[-82.41,22.99],</p>
+<p class="p1"><span class="Apple-converted-space">  </span>EDI:[-3.37,55.95],MAN:[-2.27,53.35],SIN:[103.99,1.36],HKG:[113.92,22.31],</p>
+<p class="p1"><span class="Apple-converted-space">  </span>SYD:[151.18,-33.95],NRT:[140.39,35.77],PMI:[2.74,39.55],VLC:[-0.48,39.49],</p>
+<p class="p1"><span class="Apple-converted-space">  </span>AGP:[-4.50,36.67],SVQ:[-5.90,37.42],BIO:[-2.91,43.30],TFN:[-16.34,28.48],</p>
+<p class="p1"><span class="Apple-converted-space">  </span>LPA:[-15.39,27.93],DFW:[-97.04,32.90],LGA:[-73.87,40.78],DCA:[-77.04,38.85],</p>
+<p class="p1"><span class="Apple-converted-space">  </span>GLA:[-4.43,55.87],VVI:[-63.14,-17.64],UIO:[-78.49,-0.13],BHX:[-1.75,52.45],</p>
+<p class="p1"><span class="Apple-converted-space">  </span>CPT:[18.60,-33.96],NBO:[36.92,-1.32],CAI:[31.41,30.12],DUB:[-6.27,53.42],</p>
+<p class="p1"><span class="Apple-converted-space">  </span>ZRH:[8.55,47.46],VIE:[16.57,48.11],MUC:[11.79,48.35],GVA:[6.11,46.23],</p>
+<p class="p1"><span class="Apple-converted-space">  </span>CPH:[12.66,55.62],ARN:[17.92,59.76],HEL:[24.96,60.32],WAW:[14.10,52.17],</p>
+<p class="p1"><span class="Apple-converted-space">  </span>IST:[28.81,41.00],DOH:[51.61,25.27],KUL:[101.71,2.74],BKK:[100.75,13.69],</p>
+<p class="p1"><span class="Apple-converted-space">  </span>PEK:[116.59,40.08],PVG:[121.81,31.14],ICN:[126.45,37.46],BOM:[72.87,19.09],</p>
+<p class="p1"><span class="Apple-converted-space">  </span>DEL:[77.10,28.57],JNB:[28.25,-26.13],AKL:[174.79,-36.87],YYZ:[-79.63,43.68],</p>
+<p class="p1"><span class="Apple-converted-space">  </span>YVR:[-123.18,49.19],GRU:[-46.47,-23.43],CNF:[-43.97,-19.62],FOR:[-38.53,-3.78],</p>
+<p class="p1"><span class="Apple-converted-space">  </span>REC:[-34.92,-8.13],SSA:[-38.33,-12.91],POA:[-51.18,-29.99],CWB:[-49.17,-25.53],</p>
+<p class="p1"><span class="Apple-converted-space">  </span>MDE:[-75.59,6.17],CLO:[-76.38,3.54],UIO:[-78.49,-0.13],GYE:[-79.89,-2.16],</p>
+<p class="p1"><span class="Apple-converted-space">  </span>LPB:[-68.19,-16.51],CBB:[-66.18,-17.42],SCZ:[-63.14,-17.64],</p>
+<p class="p1"><span class="Apple-converted-space">  </span>MGF:[-52.01,-23.48],NVT:[-48.65,-26.88],FLN:[-48.55,-27.67],</p>
+<p class="p1"><span class="Apple-converted-space">  </span>PMW:[-48.36,-10.29],BSB:[-47.92,-15.87],CGH:[-46.66,-23.63],</p>
+<p class="p1">};</p>
+<p class="p2"><br></p>
+<p class="p1">async function renderMap() {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const svg = d3.select('#map-svg');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>svg.selectAll('*').remove();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const W = document.getElementById('panel-map').clientWidth - 48;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const H = Math.round(W * 0.5);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>svg.attr('width', W).attr('height', H);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const world = await fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json').then(r=&gt;r.json());</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const proj = d3.geoNaturalEarth1().scale(W/6.2).translate([W/2,H/2]);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const path = d3.geoPath().projection(proj);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>svg.append('rect').attr('width',W).attr('height',H).attr('fill','#f0f9ff');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>svg.append('path').datum({type:'Sphere'}).attr('d',path).attr('fill','#dbeafe');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>svg.append('path').datum(d3.geoGraticule()()).attr('d',path).attr('fill','none').attr('stroke','#bfdbfe').attr('stroke-width',.4);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const ctrs = topojson.feature(world, world.objects.countries);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>svg.selectAll('.land').data(ctrs.features).enter()</p>
+<p class="p1"><span class="Apple-converted-space">      </span>.append('path').attr('class','land').attr('d',path)</p>
+<p class="p1"><span class="Apple-converted-space">      </span>.attr('fill','#e2e8f0').attr('stroke','#cbd5e1').attr('stroke-width',.4);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>const airport = state.airport;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const orig = COORDS[airport.iata_code] || [airport.lng, airport.lat];</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const maxW = Math.max(...state.routes.map(r=&gt;r.weekly||1));</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Arcos más finos primero</p>
+<p class="p1"><span class="Apple-converted-space">    </span>[...state.routes].sort((a,b)=&gt;(a.weekly||0)-(b.weekly||0)).forEach(r =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const dest = COORDS[r.arr_iata];</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (!dest) return;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>svg.append('path')</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.datum({type:'LineString',coordinates:[orig,dest]})</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.attr('d',path).attr('fill','none')</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.attr('stroke',r.domestic?'#f97316':'#2563eb')</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.attr('stroke-width',Math.max(.7,((r.weekly||1)/maxW)*3.5))</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.attr('stroke-opacity',.65).attr('stroke-linecap','round');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Puntos destino</p>
+<p class="p1"><span class="Apple-converted-space">    </span>state.routes.forEach(r =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const dest = COORDS[r.arr_iata];</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (!dest) return;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const p = proj(dest);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (!p) return;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>svg.append('circle').attr('cx',p[0]).attr('cy',p[1]).attr('r',2.8)</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.attr('fill',r.domestic?'#f97316':'#2563eb')</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.attr('stroke','#fff').attr('stroke-width',1);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Punto origen</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const op = proj(orig);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if (op) {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>svg.append('circle').attr('cx',op[0]).attr('cy',op[1]).attr('r',14)</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.attr('fill','none').attr('stroke','#dc2626').attr('stroke-width',.8).attr('opacity',.2);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>svg.append('circle').attr('cx',op[0]).attr('cy',op[1]).attr('r',7)</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.attr('fill','none').attr('stroke','#dc2626').attr('stroke-width',1.5).attr('opacity',.5);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>svg.append('circle').attr('cx',op[0]).attr('cy',op[1]).attr('r',4)</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.attr('fill','#dc2626').attr('stroke','#fff').attr('stroke-width',2);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>} catch(e) {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>svg.append('text').attr('x',W/2).attr('y',H/2).attr('text-anchor','middle').attr('fill','#94a3b8').text('No se pudo cargar el mapa');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">// ── CITIES ──────────────────────────────────────────────────────────────────</p>
+<p class="p1">function renderCities(domRoutes, intlRoutes) {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const airport = state.airport;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('citiesSub').textContent =</p>
+<p class="p1"><span class="Apple-converted-space">    </span>`${state.routes.length} destinos con vuelo directo desde ${airport.city||airport.name}`;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>const maxW = state.routes[0]?.weekly || 1;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>let html = '';</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>[[domRoutes,'#f97316','#fff7ed','Vuelos Domésticos'],</p>
+<p class="p1"><span class="Apple-converted-space">   </span>[intlRoutes,'#2563eb','#eff6ff','Vuelos Internacionales']].forEach(([rows,color,bg,label]) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if (!rows.length) return;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const secW = rows.reduce((s,r)=&gt;s+(r.weekly||0),0);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>html += `&lt;div class="section-mb"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="section-hdr" style="border-bottom:2px solid ${bg}"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="dot2" style="background:${color}"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;h3 style="font-size:15px;font-weight:700;color:${color}"&gt;${label}&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;span style="font-size:12px;color:#94a3b8"&gt;· ${rows.length} destinos · ${secW.toLocaleString()} vuelos/semana&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>rows.forEach((r,i) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const pct = Math.round((r.weekly||0)/maxW*100);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>html += `&lt;div class="route-row"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="route-num"&gt;${i+1}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="route-iata"&gt;${r.arr_iata}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="route-city"&gt;${r.arr_iata}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="route-airlines"&gt;${r.airlines.slice(0,4).join(' · ')}${r.airlines.length&gt;4?' +'+(r.airlines.length-4):''}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="route-weekly"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="num" style="color:${color}"&gt;${(r.weekly||0).toLocaleString()}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="lbl"&gt;vuelos/sem&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="bar-bg" style="background:${bg}"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="bar-fill" style="background:${color};width:${pct}%"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>});</p>
+<p class="p1"><span class="Apple-converted-space">    </span>html += `&lt;/div&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>});</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('citiesContent').innerHTML = html;</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">// ── AIRLINES ────────────────────────────────────────────────────────────────</p>
+<p class="p1">function renderAirlines() {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const airport = state.airport;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const airlines = state.airlines;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const maxW = airlines[0]?.weekly || 1;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('airlinesSub').textContent =</p>
+<p class="p1"><span class="Apple-converted-space">    </span>`${airlines.length} aerolíneas con rutas directas desde ${airport.city||airport.name}`;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>let html = `&lt;table class="tbl"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;thead&gt;&lt;tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;th&gt;Aerolínea&lt;/th&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;th class="c"&gt;V/semana&lt;/th&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;th class="c"&gt;Dom.&lt;/th&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;th class="c"&gt;Intl.&lt;/th&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;th class="c"&gt;Destinos&lt;/th&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;th&gt;&lt;/th&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;`;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>airlines.forEach(a =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const pct = Math.round((a.weekly/maxW)*100);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>html += `&lt;tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;td style="font-weight:700"&gt;${a.code}&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;td class="c"&gt;&lt;div class="tbl-weekly"&gt;${a.weekly.toLocaleString()}&lt;/div&gt;&lt;div class="tbl-day"&gt;${Math.round(a.weekly/7)}/día&lt;/div&gt;&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;td class="c tbl-dom"&gt;${a.domestic}&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;td class="c tbl-intl"&gt;${a.international}&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;td class="c" style="color:#64748b"&gt;${a.routes}&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;td style="padding:0 14px"&gt;&lt;div class="tbl-bar-bg"&gt;&lt;div class="tbl-bar-fill" style="width:${pct}%"&gt;&lt;/div&gt;&lt;/div&gt;&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/tr&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>});</p>
+<p class="p1"><span class="Apple-converted-space">  </span>html += '&lt;/tbody&gt;&lt;/table&gt;';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('airlinesContent').innerHTML = html;</p>
+<p class="p1">}</p>
+<p class="p1">&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
