@@ -12,117 +12,174 @@
 body{font-family:'DM Sans',system-ui,sans-serif;background:#f1f5f9;color:#1e293b;min-height:100vh}
 
 /* TOPBAR */
-.topbar{background:#fff;border-bottom:1px solid #e2e8f0;padding:14px 24px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;position:sticky;top:0;z-index:100;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.topbar{background:#fff;border-bottom:1px solid #e2e8f0;padding:12px 24px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;position:sticky;top:0;z-index:100;box-shadow:0 1px 4px rgba(0,0,0,.06)}
 .topbar h1{font-size:16px;font-weight:800;color:#1e293b;white-space:nowrap}
 #cityInput{flex:1;min-width:160px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:8px;color:#1e293b;font-size:14px;padding:9px 14px;outline:none;font-family:inherit;transition:border-color .2s}
 #cityInput:focus{border-color:#93c5fd}
-.btn-primary{background:#1d4ed8;border:none;border-radius:8px;color:#fff;padding:9px 20px;font-size:14px;cursor:pointer;font-weight:700;font-family:inherit;white-space:nowrap;transition:opacity .2s}
+#cityInput:disabled{opacity:.4;cursor:not-allowed}
+.btn-primary{background:#1d4ed8;border:none;border-radius:8px;color:#fff;padding:9px 20px;font-size:14px;cursor:pointer;font-weight:700;font-family:inherit;white-space:nowrap}
 .btn-primary:disabled{opacity:.5;cursor:not-allowed}
-.btn-green{background:#059669;border:none;border-radius:8px;color:#fff;padding:9px 16px;font-size:13px;cursor:pointer;font-weight:600;font-family:inherit;white-space:nowrap;display:none}
-.btn-outline{background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:8px;color:#64748b;padding:9px 14px;font-size:13px;cursor:pointer;font-family:inherit;margin-left:auto}
 
-/* CONFIG */
-.config-panel{background:#eff6ff;border-bottom:1px solid #bfdbfe;padding:14px 24px;display:none;gap:12px;align-items:center;flex-wrap:wrap}
-.config-panel.open{display:flex}
-.config-panel input{flex:1;min-width:200px;background:#fff;border:1.5px solid #bfdbfe;border-radius:8px;color:#1e293b;font-size:13px;padding:8px 12px;outline:none;font-family:inherit}
-.config-panel label{font-size:12px;color:#1d4ed8;font-weight:600;white-space:nowrap}
-.btn-save{background:#1d4ed8;border:none;border-radius:7px;color:#fff;padding:8px 16px;font-size:12px;cursor:pointer;font-weight:600;font-family:inherit}
+/* SOURCE SELECTOR */
+.source-bar{background:#f8fafc;border-bottom:1px solid #e2e8f0;padding:10px 24px;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.src-label{font-size:11px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.5px;margin-right:4px;white-space:nowrap}
+.src-btn{border:1.5px solid #e2e8f0;border-radius:8px;padding:6px 13px;font-size:12px;cursor:pointer;font-weight:600;font-family:inherit;background:#fff;color:#64748b;transition:all .15s;display:flex;align-items:center;gap:5px;white-space:nowrap}
+.src-btn.active{background:#1d4ed8;border-color:#1d4ed8;color:#fff}
+.src-btn.active .src-badge{background:rgba(255,255,255,.2);color:#e0f2fe}
+.src-badge{font-size:9px;background:#f1f5f9;color:#94a3b8;border-radius:4px;padding:2px 5px;font-weight:700}
+.src-divider{width:1px;height:22px;background:#e2e8f0;margin:0 2px}
+.src-group-lbl{font-size:9px;color:#94a3b8;font-weight:700;text-transform:uppercase;letter-spacing:.5px;align-self:center;padding:0 4px}
 
-/* ERROR / INFO */
-.msg-bar{margin:14px 24px;border-radius:8px;padding:10px 16px;font-size:13px;display:none}
+/* CONFIG PANELS */
+.cfg-panel{background:#eff6ff;border-bottom:1px solid #bfdbfe;padding:12px 24px;display:none;gap:10px;align-items:center;flex-wrap:wrap}
+.cfg-panel.open{display:flex}
+.cfg-panel label{font-size:12px;color:#1d4ed8;font-weight:700;white-space:nowrap}
+.cfg-input{flex:1;min-width:180px;background:#fff;border:1.5px solid #bfdbfe;border-radius:8px;color:#1e293b;font-size:13px;padding:8px 12px;outline:none;font-family:inherit}
+.cfg-hint{font-size:11px;color:#60a5fa}
+.btn-save{background:#1d4ed8;border:none;border-radius:7px;color:#fff;padding:8px 14px;font-size:12px;cursor:pointer;font-weight:700;font-family:inherit;white-space:nowrap}
+.btn-cfg{background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:7px;color:#64748b;padding:7px 12px;font-size:12px;cursor:pointer;font-family:inherit}
+
+/* CSV PANEL */
+.csv-panel{background:#f0fdf4;border-bottom:1px solid #bbf7d0;padding:14px 24px;display:none;flex-direction:column;gap:10px}
+.csv-panel.open{display:flex}
+.drop-zone{border:2px dashed #86efac;border-radius:12px;padding:24px;text-align:center;cursor:pointer;transition:all .2s;background:#fff}
+.drop-zone:hover,.drop-zone.drag{border-color:#22c55e;background:#f0fdf4}
+.drop-zone .dz-icon{font-size:32px;margin-bottom:8px}
+.drop-zone h3{font-size:14px;font-weight:700;color:#166534;margin-bottom:4px}
+.drop-zone p{font-size:12px;color:#4ade80}
+.csv-format{font-size:11px;color:#64748b;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:10px 14px;margin-top:4px}
+.csv-format code{font-family:monospace;background:#e2e8f0;padding:1px 5px;border-radius:3px;font-size:11px}
+#csvFileInput{display:none}
+.csv-col-map{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.csv-col-map select{border:1.5px solid #bbf7d0;border-radius:7px;padding:6px 10px;font-size:12px;font-family:inherit;background:#fff;color:#1e293b;outline:none}
+.csv-col-map label{font-size:11px;font-weight:700;color:#166534}
+
+/* LOADING BAR */
+.loading-bar{background:#eff6ff;border-bottom:1px solid #bfdbfe;padding:10px 24px;display:none;align-items:center;gap:12px}
+.loading-bar.show{display:flex}
+.loading-track{flex:1;height:5px;background:#bfdbfe;border-radius:3px;overflow:hidden}
+.loading-fill{height:100%;background:#1d4ed8;border-radius:3px;transition:width .3s}
+.loading-text{font-size:12px;color:#1d4ed8;font-weight:600;white-space:nowrap;min-width:220px}
+
+/* MESSAGES */
+.msg-bar{margin:12px 24px;border-radius:8px;padding:10px 16px;font-size:13px;display:none}
 .msg-bar.show{display:block}
 .msg-bar.error{background:#fef2f2;border:1px solid #fecaca;color:#dc2626}
 .msg-bar.info{background:#eff6ff;border:1px solid #bfdbfe;color:#1d4ed8}
+.msg-bar.warn{background:#fffbeb;border:1px solid #fde68a;color:#92400e}
 
 /* EMPTY */
-.empty{text-align:center;padding:100px 20px;color:#94a3b8}
-.empty .icon{font-size:52px;margin-bottom:16px}
-.empty h2{font-size:18px;font-weight:700;color:#64748b;margin-bottom:8px}
-.empty p{font-size:13px;margin-bottom:20px}
+.empty{text-align:center;padding:70px 20px;color:#94a3b8}
+.empty .icon{font-size:46px;margin-bottom:14px}
+.empty h2{font-size:17px;font-weight:700;color:#64748b;margin-bottom:7px}
+.empty p{font-size:13px;margin-bottom:16px;max-width:400px;margin-left:auto;margin-right:auto;line-height:1.5}
+.ready-badge{display:inline-flex;align-items:center;gap:8px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:10px 18px;margin-top:6px}
+.ready-badge span{font-size:13px;color:#166534;font-weight:600}
 
 /* MAIN */
 .main{padding:20px 24px;max-width:1100px;margin:0 auto;display:none}
 .main.show{display:block}
 
 /* HEADER CARD */
-.header-card{background:#1e3a8a;border-radius:16px;padding:26px 30px;margin-bottom:18px;color:#fff}
-.header-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;margin-bottom:20px}
-.header-card .meta{font-size:12px;color:#93c5fd;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
-.header-card h2{font-size:30px;font-weight:800;margin-bottom:4px}
-.header-card .sub{font-size:13px;color:#93c5fd}
-.updated-tag{font-size:11px;color:#60a5fa;background:rgba(255,255,255,.1);border-radius:8px;padding:6px 12px;white-space:nowrap;align-self:flex-start}
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px}
-.stat-box{background:rgba(255,255,255,.1);border-radius:12px;padding:14px 16px}
-.stat-box .val{font-size:26px;font-weight:800;line-height:1}
-.stat-box .lbl{font-size:11px;color:#93c5fd;margin-top:5px;font-weight:600}
+.hcard{background:#1e3a8a;border-radius:16px;padding:24px 28px;margin-bottom:16px;color:#fff}
+.hcard-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;margin-bottom:18px}
+.hcard .meta{font-size:11px;color:#93c5fd;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.hcard h2{font-size:28px;font-weight:800;margin-bottom:3px}
+.hcard .sub{font-size:13px;color:#93c5fd;line-height:1.4}
+.hcard-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.src-tag{font-size:11px;border-radius:7px;padding:4px 11px;font-weight:700;white-space:nowrap}
+.tag-of{background:rgba(37,99,235,.3);color:#93c5fd;border:1px solid rgba(147,197,253,.3)}
+.tag-oa{background:rgba(5,150,105,.3);color:#6ee7b7;border:1px solid rgba(110,231,183,.3)}
+.tag-al{background:rgba(124,58,237,.3);color:#c4b5fd;border:1px solid rgba(196,181,253,.3)}
+.tag-as{background:rgba(220,38,38,.3);color:#fca5a5;border:1px solid rgba(252,165,165,.3)}
+.tag-am{background:rgba(234,179,8,.3);color:#fde047;border:1px solid rgba(253,224,71,.3)}
+.tag-csv{background:rgba(20,184,166,.3);color:#5eead4;border:1px solid rgba(94,234,212,.3)}
+.updated-tag{font-size:11px;color:#60a5fa;background:rgba(255,255,255,.1);border-radius:7px;padding:4px 11px}
+.apt-chips{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px}
+.apt-chip{font-size:10px;font-weight:700;padding:3px 9px;border-radius:5px;background:rgba(255,255,255,.15);color:#e0f2fe}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}
+.stat-box{background:rgba(255,255,255,.1);border-radius:11px;padding:13px 15px}
+.stat-box .val{font-size:24px;font-weight:800;line-height:1}
+.stat-box .lbl{font-size:11px;color:#93c5fd;margin-top:4px;font-weight:600}
 .stat-box .sub2{font-size:10px;color:#60a5fa;margin-top:2px}
 
 /* TABS */
-.tabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;align-items:center}
-.tab{background:#fff;border:1.5px solid #e2e8f0;border-radius:8px;color:#64748b;padding:8px 18px;font-size:13px;cursor:pointer;font-weight:600;font-family:inherit;transition:all .15s}
+.tabs{display:flex;gap:7px;margin-bottom:14px;flex-wrap:wrap;align-items:center}
+.tab{background:#fff;border:1.5px solid #e2e8f0;border-radius:8px;color:#64748b;padding:7px 16px;font-size:13px;cursor:pointer;font-weight:600;font-family:inherit;transition:all .15s}
 .tab.active{background:#1d4ed8;border-color:#1d4ed8;color:#fff}
-.tab-hint{font-size:11px;color:#94a3b8;margin-left:4px}
+.tab-hint{font-size:11px;color:#94a3b8;margin-left:2px}
 
 /* PANELS */
-.panel{background:#fff;border-radius:16px;padding:24px;box-shadow:0 1px 4px rgba(0,0,0,.06);display:none}
+.panel{background:#fff;border-radius:16px;padding:22px;box-shadow:0 1px 4px rgba(0,0,0,.06);display:none}
 .panel.active{display:block}
-.panel-title{font-size:18px;font-weight:700;color:#1e293b;margin-bottom:4px}
-.panel-sub{font-size:13px;color:#94a3b8;margin-bottom:20px}
+.panel-title{font-size:17px;font-weight:700;color:#1e293b;margin-bottom:3px}
+.panel-sub{font-size:13px;color:#94a3b8;margin-bottom:18px}
 
 /* MAP */
 .map-wrap{border:1px solid #e2e8f0;border-radius:12px;overflow:hidden}
-.map-legend{padding:10px 18px;background:#fff;border-bottom:1px solid #f1f5f9;display:flex;gap:20px;align-items:center;flex-wrap:wrap}
-.map-legend span{font-size:12px;font-weight:600;display:flex;align-items:center;gap:6px}
-.dot{width:11px;height:11px;border-radius:50%;display:inline-block}
-.line{width:26px;height:3px;border-radius:2px;display:inline-block}
+.map-legend{padding:9px 16px;background:#fff;border-bottom:1px solid #f1f5f9;display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.map-legend span{font-size:12px;font-weight:600;display:flex;align-items:center;gap:5px}
+.dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+.line{width:22px;height:3px;border-radius:2px;display:inline-block}
 .map-hint{font-size:11px;color:#94a3b8;margin-left:auto}
 #map-svg{display:block;width:100%}
 
-/* SECTION */
-.section-mb{margin-bottom:28px}
-.section-hdr{display:flex;align-items:center;gap:8px;margin-bottom:12px;padding-bottom:8px}
-.dot2{width:14px;height:14px;border-radius:3px;flex-shrink:0}
-
 /* ROUTE ROWS */
-.route-row{display:grid;grid-template-columns:28px 60px 1fr 110px 160px;gap:0;align-items:center;padding:9px 12px;border-radius:8px;margin-bottom:2px}
+.section-mb{margin-bottom:24px}
+.section-hdr{display:flex;align-items:center;gap:7px;margin-bottom:10px;padding-bottom:7px}
+.dot2{width:13px;height:13px;border-radius:3px;flex-shrink:0}
+.route-row{display:grid;grid-template-columns:26px 56px 1fr 100px 140px;align-items:center;padding:8px 10px;border-radius:7px;margin-bottom:2px}
 .route-row:nth-child(odd){background:#fff}
 .route-row:nth-child(even){background:#fafafa}
 .route-num{font-size:11px;color:#cbd5e1;font-weight:600}
-.route-iata{font-size:12px;color:#94a3b8;font-weight:600}
+.route-iata{font-size:12px;color:#94a3b8;font-weight:700}
 .route-city{font-size:13px;font-weight:600;color:#1e293b}
-.route-airlines{font-size:11px;color:#94a3b8;margin-top:1px}
-.route-weekly{text-align:right;padding-right:16px}
-.route-weekly .num{font-size:18px;font-weight:800}
+.route-weekly{text-align:right;padding-right:14px}
+.route-weekly .num{font-size:17px;font-weight:800}
 .route-weekly .lbl{font-size:10px;color:#94a3b8}
-.bar-bg{height:8px;border-radius:4px;overflow:hidden}
-.bar-fill{height:100%;border-radius:4px;transition:width .4s}
+.bar-bg{height:7px;border-radius:4px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px}
+
+/* AIRLINE DISPLAY */
+.al-line{margin-top:3px;display:flex;flex-wrap:wrap;gap:4px;align-items:center}
+.al-item{display:inline-flex;align-items:center;gap:3px}
+.al-code{font-size:10px;font-weight:700;color:#475569;background:#f1f5f9;border-radius:3px;padding:1px 5px}
+.al-name{font-size:10px;color:#64748b}
+.al-sep{font-size:9px;color:#cbd5e1;margin:0 1px}
+.al-more{font-size:10px;color:#94a3b8;font-style:italic}
+
+/* ORIGIN BADGE */
+.origin-badge{display:inline-block;font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;margin-left:4px;letter-spacing:.2px;vertical-align:middle}
+.origin-badge.dom{background:#fff3e0;color:#c2410c;border:1px solid #fed7aa}
+.origin-badge.intl{background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe}
 
 /* TABLE */
 .tbl{width:100%;border-collapse:collapse;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden}
 .tbl thead tr{background:#f8fafc}
-.tbl thead th{padding:9px 14px;font-size:11px;color:#94a3b8;font-weight:700;text-transform:uppercase;letter-spacing:.5px;text-align:left;border:1px solid #e2e8f0}
+.tbl thead th{padding:8px 13px;font-size:11px;color:#94a3b8;font-weight:700;text-transform:uppercase;letter-spacing:.5px;text-align:left;border:1px solid #e2e8f0}
 .tbl thead th.c{text-align:center}
 .tbl tbody tr:nth-child(odd){background:#fff}
 .tbl tbody tr:nth-child(even){background:#fafafa}
-.tbl tbody td{padding:12px 14px;font-size:14px;color:#1e293b;border:1px solid #e2e8f0;border-top:none}
+.tbl tbody td{padding:11px 13px;font-size:13px;color:#1e293b;border:1px solid #e2e8f0;border-top:none}
 .tbl tbody td.c{text-align:center}
-.tbl-weekly{font-size:18px;font-weight:800;color:#1d4ed8}
-.tbl-day{font-size:10px;color:#94a3b8}
-.tbl-dom{color:#f97316;font-weight:700;font-size:15px}
-.tbl-intl{color:#2563eb;font-weight:700;font-size:15px}
-.tbl-bar-bg{height:10px;background:#f1f5f9;border-radius:5px;overflow:hidden}
-.tbl-bar-fill{height:100%;background:linear-gradient(90deg,#1d4ed8,#60a5fa);border-radius:5px}
+.tbl-num{font-size:17px;font-weight:800;color:#1d4ed8}
+.tbl-sub{font-size:10px;color:#94a3b8}
+.tbl-dom{color:#f97316;font-weight:700;font-size:14px}
+.tbl-intl{color:#2563eb;font-weight:700;font-size:14px}
+.tbl-bar-bg{height:8px;background:#f1f5f9;border-radius:4px;overflow:hidden}
+.tbl-bar-fill{height:100%;background:linear-gradient(90deg,#1d4ed8,#60a5fa);border-radius:4px}
 
 /* SPINNER */
-.spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite;vertical-align:middle;margin-right:6px}
+.spinner{display:inline-block;width:15px;height:15px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:5px}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-@media(max-width:600px){
-  .topbar{padding:10px 14px}
-  .main{padding:14px}
-  .header-card{padding:18px}
-  .route-row{grid-template-columns:24px 46px 1fr 80px}
+@media(max-width:620px){
+  .topbar,.source-bar{padding:9px 12px}
+  .main{padding:12px}
+  .hcard{padding:16px}
+  .route-row{grid-template-columns:22px 44px 1fr 70px}
   .route-row>div:last-child{display:none}
+  .src-btn .src-badge{display:none}
 }
 </style>
 </head>
@@ -132,42 +189,100 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:#f1f5f9;color:#1e293b
 <div class="topbar">
   <span style="font-size:20px">✈</span>
   <h1>Conectividad Aérea</h1>
-  <input type="text" id="cityInput" placeholder="Ciudad de origen (ej: Buenos Aires)..."/>
-  <button class="btn-primary" id="searchBtn" onclick="search()">Buscar</button>
-  <button class="btn-green" id="updateBtn" onclick="updateData()">⟳ Actualizar</button>
-  <button class="btn-outline" onclick="toggleConfig()">⚙ API Key</button>
+  <input type="text" id="cityInput" placeholder="Ciudad o código IATA (ej: Buenos Aires, EZE)..." disabled/>
+  <button class="btn-primary" id="searchBtn" onclick="search()" disabled>Buscar</button>
+  <button class="btn-cfg" id="cfgBtn" onclick="toggleCfg()" style="display:none">⚙ Config</button>
 </div>
 
-<!-- CONFIG -->
-<div class="config-panel" id="configPanel">
+<!-- SOURCE SELECTOR -->
+<div class="source-bar">
+  <span class="src-label">Fuente:</span>
+
+  <span class="src-group-lbl">Gratuitas</span>
+  <button class="src-btn active" id="srcOf"  onclick="setMode('openflights')">🌐 OpenFlights <span class="src-badge">2017</span></button>
+  <button class="src-btn" id="srcOa"  onclick="setMode('ourairports')">🗺 OurAirports <span class="src-badge">2024</span></button>
+
+  <div class="src-divider"></div>
+  <span class="src-group-lbl">API Key</span>
+  <button class="src-btn" id="srcAl"  onclick="setMode('airlabs')">🔑 AirLabs <span class="src-badge">Tiempo real</span></button>
+  <button class="src-btn" id="srcAs"  onclick="setMode('aviationstack')">📡 AviationStack <span class="src-badge">100/mes</span></button>
+  <button class="src-btn" id="srcAm"  onclick="setMode('amadeus')">🎫 Amadeus <span class="src-badge">Sandbox</span></button>
+
+  <div class="src-divider"></div>
+  <button class="src-btn" id="srcCsv" onclick="setMode('csv')">📄 CSV Propio <span class="src-badge">Archivo</span></button>
+</div>
+
+<!-- CONFIG PANELS -->
+<div class="cfg-panel" id="cfgAirlabs">
   <label>AirLabs API Key</label>
-  <input type="password" id="apiKeyInput" placeholder="Pegá tu API key de airlabs.co"/>
-  <span style="font-size:12px;color:#60a5fa">→ Gratis en <strong>airlabs.co</strong></span>
-  <button class="btn-save" onclick="saveKey()">Guardar</button>
+  <input type="password" class="cfg-input" id="keyAirlabs" placeholder="Tu API key de airlabs.co"/>
+  <span class="cfg-hint">→ Cuenta gratis en <strong>airlabs.co</strong></span>
+  <button class="btn-save" onclick="saveKey('airlabs')">Guardar</button>
+</div>
+
+<div class="cfg-panel" id="cfgAviationstack">
+  <label>AviationStack Access Key</label>
+  <input type="password" class="cfg-input" id="keyAviationstack" placeholder="Tu access key de aviationstack.com"/>
+  <span class="cfg-hint">→ Cuenta gratis en <strong>aviationstack.com</strong> · Plan gratuito: HTTP</span>
+  <button class="btn-save" onclick="saveKey('aviationstack')">Guardar</button>
+</div>
+
+<div class="cfg-panel" id="cfgAmadeus">
+  <label>Client ID</label>
+  <input type="text" class="cfg-input" id="keyAmadeusId" placeholder="Client ID de developers.amadeus.com" style="max-width:280px"/>
+  <label>Client Secret</label>
+  <input type="password" class="cfg-input" id="keyAmadeusSecret" placeholder="Client Secret" style="max-width:240px"/>
+  <span class="cfg-hint">→ Cuenta gratis en <strong>developers.amadeus.com</strong> · Self-Service</span>
+  <button class="btn-save" onclick="saveKey('amadeus')">Guardar</button>
+</div>
+
+<!-- CSV PANEL -->
+<div class="csv-panel" id="cfgCsv">
+  <div class="drop-zone" id="dropZone" onclick="document.getElementById('csvFileInput').click()"
+       ondragover="e=>e.preventDefault()" ondrop="handleDrop(event)" ondragover="handleDragOver(event)">
+    <div class="dz-icon">📂</div>
+    <h3>Arrastrá tu archivo CSV o hacé clic para seleccionarlo</h3>
+    <p>El archivo se procesa localmente, no se sube a ningún servidor</p>
+  </div>
+  <input type="file" id="csvFileInput" accept=".csv,.txt" onchange="handleFileSelect(event)"/>
+  <div class="csv-format">
+    <strong>Formato esperado:</strong> columnas <code>dep_iata</code> (origen), <code>arr_iata</code> (destino), <code>airline</code> (aerolínea, opcional), <code>weekly</code> (frecuencia semanal, opcional).<br>
+    También acepta nombres como: <code>from/to</code>, <code>origin/destination</code>, <code>salida/llegada</code>. La primera fila debe ser encabezado.
+  </div>
+  <div id="csvColMap" class="csv-col-map" style="display:none"></div>
+</div>
+
+<!-- LOADING BAR -->
+<div class="loading-bar" id="loadingBar">
+  <span class="loading-text" id="loadingText">Cargando datos...</span>
+  <div class="loading-track"><div class="loading-fill" id="loadingFill"></div></div>
 </div>
 
 <!-- MESSAGES -->
 <div class="msg-bar error" id="errorBar"></div>
-<div class="msg-bar info" id="infoBar"></div>
+<div class="msg-bar info"  id="infoBar"></div>
+<div class="msg-bar warn"  id="warnBar"></div>
 
-<!-- EMPTY -->
+<!-- EMPTY STATE -->
 <div class="empty" id="emptyState">
   <div class="icon">✈</div>
-  <h2>Ingresá una ciudad para ver su conectividad aérea</h2>
-  <p>Necesitás una API key gratuita de <strong style="color:#1d4ed8">airlabs.co</strong></p>
-  <button class="btn-primary" onclick="toggleConfig()">⚙ Configurar API Key</button>
+  <h2 id="emptyTitle">Cargando datos...</h2>
+  <p id="emptyDesc">Por favor esperá.</p>
 </div>
 
 <!-- MAIN -->
 <div class="main" id="mainContent">
-  <div class="header-card">
-    <div class="header-top">
+  <div class="hcard">
+    <div class="hcard-top">
       <div>
         <div class="meta">Destinos con vuelo directo desde</div>
         <h2 id="destCity">—</h2>
         <div class="sub" id="destSub">—</div>
       </div>
-      <div class="updated-tag" id="updatedTag" style="display:none"></div>
+      <div class="hcard-right">
+        <div class="src-tag" id="srcTag">—</div>
+        <div class="updated-tag" id="updatedTag" style="display:none"></div>
+      </div>
     </div>
     <div class="stats-grid" id="statsGrid"></div>
   </div>
@@ -176,7 +291,7 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:#f1f5f9;color:#1e293b
     <button class="tab active" onclick="showTab('map',this)">🗺 Mapa</button>
     <button class="tab" onclick="showTab('cities',this)">🏙 Por ciudad</button>
     <button class="tab" onclick="showTab('airlines',this)">✈ Por aerolínea</button>
-    <span class="tab-hint">Screenshot de cada vista → pegá en tu presentación</span>
+    <span class="tab-hint">Screenshot → pegá en tu presentación</span>
   </div>
 
   <div class="panel active" id="panel-map">
@@ -185,363 +300,868 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:#f1f5f9;color:#1e293b
         <span style="color:#f97316"><span class="line" style="background:#f97316"></span>Domésticos</span>
         <span style="color:#2563eb"><span class="line" style="background:#2563eb"></span>Internacionales</span>
         <span style="color:#dc2626"><span class="dot" style="background:#dc2626"></span>Origen</span>
-        <span class="map-hint">Grosor = vuelos/semana</span>
+        <span class="map-hint" id="mapHint">Grosor = peso de ruta</span>
       </div>
       <svg id="map-svg"></svg>
     </div>
   </div>
 
   <div class="panel" id="panel-cities">
-    <div class="panel-title">Destinos · vuelos por semana</div>
+    <div class="panel-title">Destinos · <span id="citiesMetric">rutas</span></div>
     <div class="panel-sub" id="citiesSub"></div>
     <div id="citiesContent"></div>
   </div>
 
   <div class="panel" id="panel-airlines">
-    <div class="panel-title">Aerolíneas · vuelos por semana</div>
+    <div class="panel-title">Aerolíneas · rutas directas</div>
     <div class="panel-sub" id="airlinesSub"></div>
     <div id="airlinesContent"></div>
   </div>
 </div>
 
 <script>
-// ── STATE ──────────────────────────────────────────────────────────────────
-const state = { apiKey:'', airport:null, routes:[], lastUpdated:null };
-
-window.onload = () => {
-  const k = localStorage.getItem('airlabs_key');
-  if (k) { state.apiKey = k; document.getElementById('apiKeyInput').value = k; }
-  document.getElementById('cityInput').addEventListener('keydown', e => { if(e.key==='Enter') search(); });
+// ── STATE ───────────────────────────────────────────────────────────────────
+const state = {
+  mode: 'openflights',
+  airport: null, airports: null, routes: [], lastUpdated: null, airlines: [],
+  of: { loaded:false, loading:false, airports:null, routes:null, airlineNames:null },
+  oa: { loaded:false, loading:false, airports:null },
+  amadeusToken: null, amadeusTokenExpiry: 0,
+  csvData: null,
 };
 
-// ── UI ─────────────────────────────────────────────────────────────────────
-function toggleConfig() { document.getElementById('configPanel').classList.toggle('open'); }
+// ── KEYS (localStorage) ─────────────────────────────────────────────────────
+const K = {
+  get airlabs()       { return localStorage.getItem('k_airlabs') || ''; },
+  set airlabs(v)      { localStorage.setItem('k_airlabs', v); },
+  get aviationstack() { return localStorage.getItem('k_as') || ''; },
+  set aviationstack(v){ localStorage.setItem('k_as', v); },
+  get amadeusId()     { return localStorage.getItem('k_am_id') || ''; },
+  set amadeusId(v)    { localStorage.setItem('k_am_id', v); },
+  get amadeusSecret() { return localStorage.getItem('k_am_sec') || ''; },
+  set amadeusSecret(v){ localStorage.setItem('k_am_sec', v); },
+};
 
-function saveKey() {
-  const k = document.getElementById('apiKeyInput').value.trim();
-  if (!k) return;
-  state.apiKey = k;
-  localStorage.setItem('airlabs_key', k);
-  document.getElementById('configPanel').classList.remove('open');
+// ── INIT ────────────────────────────────────────────────────────────────────
+window.onload = () => {
+  // Restore saved keys
+  document.getElementById('keyAirlabs').value       = K.airlabs;
+  document.getElementById('keyAviationstack').value = K.aviationstack;
+  document.getElementById('keyAmadeusId').value     = K.amadeusId;
+  document.getElementById('keyAmadeusSecret').value = K.amadeusSecret;
+  document.getElementById('cityInput').addEventListener('keydown', e => { if(e.key==='Enter') search(); });
+  setMode('openflights');
+};
+
+function saveKey(which) {
+  if (which === 'airlabs') {
+    K.airlabs = document.getElementById('keyAirlabs').value.trim();
+    document.getElementById('cfgAirlabs').classList.remove('open');
+    if (K.airlabs) { setReady('AirLabs configurado ✓','Ingresá una ciudad para buscar.'); enableInput(); }
+  } else if (which === 'aviationstack') {
+    K.aviationstack = document.getElementById('keyAviationstack').value.trim();
+    document.getElementById('cfgAviationstack').classList.remove('open');
+    if (K.aviationstack) { setReady('AviationStack configurado ✓','Ingresá una ciudad para buscar.'); enableInput(); }
+  } else if (which === 'amadeus') {
+    K.amadeusId     = document.getElementById('keyAmadeusId').value.trim();
+    K.amadeusSecret = document.getElementById('keyAmadeusSecret').value.trim();
+    document.getElementById('cfgAmadeus').classList.remove('open');
+    if (K.amadeusId && K.amadeusSecret) { setReady('Amadeus configurado ✓','Ingresá una ciudad para buscar.'); enableInput(); }
+  }
 }
 
+function toggleCfg() {
+  const panels = { airlabs:'cfgAirlabs', aviationstack:'cfgAviationstack', amadeus:'cfgAmadeus' };
+  const id = panels[state.mode];
+  if (id) document.getElementById(id).classList.toggle('open');
+}
+
+// ── MODE SETUP ──────────────────────────────────────────────────────────────
+const MODE_IDS = ['openflights','ourairports','airlabs','aviationstack','amadeus','csv'];
+const SRC_BTNS = { openflights:'srcOf', ourairports:'srcOa', airlabs:'srcAl', aviationstack:'srcAs', amadeus:'srcAm', csv:'srcCsv' };
+
+function setMode(mode) {
+  state.mode = mode;
+  // Update buttons
+  MODE_IDS.forEach(m => document.getElementById(SRC_BTNS[m]).classList.toggle('active', m === mode));
+  // Hide all config panels
+  ['cfgAirlabs','cfgAviationstack','cfgAmadeus','cfgCsv'].forEach(id => document.getElementById(id).classList.remove('open'));
+  document.getElementById('cfgBtn').style.display = 'none';
+  document.getElementById('mainContent').classList.remove('show');
+  hideMessages();
+
+  if (mode === 'openflights') {
+    if (state.of.loaded) { setReady('OpenFlights cargado ✓', numRoutesSummary(state.of)); enableInput(); }
+    else if (!state.of.loading) loadOFData();
+  }
+  else if (mode === 'ourairports') {
+    const bothLoaded = state.of.loaded && state.oa.loaded;
+    if (bothLoaded) { setReady('OurAirports 2024 cargado ✓', numRoutesSummary(state.of)); enableInput(); }
+    else if (!state.of.loading && !state.oa.loading) loadOAData();
+  }
+  else if (mode === 'airlabs') {
+    document.getElementById('cfgBtn').style.display = '';
+    if (K.airlabs) { setReady('AirLabs listo', 'Buscá cualquier ciudad con datos en tiempo real.'); enableInput(); }
+    else { setEmpty('Configurá tu API Key de AirLabs', 'Registrate gratis en airlabs.co y pegá tu key.'); document.getElementById('cfgAirlabs').classList.add('open'); disableInput(); }
+  }
+  else if (mode === 'aviationstack') {
+    document.getElementById('cfgBtn').style.display = '';
+    if (K.aviationstack) { setReady('AviationStack listo', 'Buscá rutas con datos actualizados.'); enableInput(); }
+    else { setEmpty('Configurá tu Access Key de AviationStack', 'Registrate gratis en aviationstack.com.'); document.getElementById('cfgAviationstack').classList.add('open'); disableInput(); }
+  }
+  else if (mode === 'amadeus') {
+    document.getElementById('cfgBtn').style.display = '';
+    if (K.amadeusId && K.amadeusSecret) { setReady('Amadeus listo', 'Datos del sandbox de Amadeus for Developers.'); enableInput(); }
+    else { setEmpty('Configurá tus credenciales de Amadeus', 'Registrate gratis en developers.amadeus.com · Self-Service.'); document.getElementById('cfgAmadeus').classList.add('open'); disableInput(); }
+  }
+  else if (mode === 'csv') {
+    document.getElementById('cfgCsv').classList.add('open');
+    if (state.csvData) { setReady('CSV cargado ✓', `${state.csvData.routes.length} rutas listas para visualizar.`); enableInput(); }
+    else { setEmpty('Subí tu archivo CSV de rutas', 'Usá el panel de arriba para cargar tu archivo.'); disableInput(); }
+  }
+}
+
+function numRoutesSummary(ofData) {
+  const deps = ofData.routes ? Object.keys(ofData.routes).length : 0;
+  const apts = ofData.airports ? Object.keys(ofData.airports).length : 0;
+  return `${apts.toLocaleString()} aeropuertos · ${deps.toLocaleString()} orígenes con rutas`;
+}
+
+function enableInput()  { document.getElementById('cityInput').disabled = false; document.getElementById('searchBtn').disabled = false; }
+function disableInput() { document.getElementById('cityInput').disabled = true;  document.getElementById('searchBtn').disabled = true; }
+
+// ── OPENFLIGHTS LOADER ──────────────────────────────────────────────────────
+async function loadOFData() {
+  state.of.loading = true;
+  showProgress('Descargando aeropuertos OpenFlights...', 5);
+  setEmpty('Cargando OpenFlights...', 'Descargando base de datos de rutas. Solo la primera vez.');
+
+  try {
+    const airResp = await fetch('https://raw.githubusercontent.com/jpatokal/openflights/master/data/airports.dat');
+    const airText = await airResp.text();
+    showProgress('Procesando aeropuertos...', 30);
+
+    const airports = {};
+    for (const line of airText.split('\n')) {
+      if (!line.trim()) continue;
+      const row = parseCSV(line);
+      if (row.length < 8) continue;
+      const iata = row[4].trim();
+      if (!iata || iata === '\\N' || iata.length !== 3) continue;
+      const lat = parseFloat(row[6]), lon = parseFloat(row[7]);
+      if (isNaN(lat) || isNaN(lon)) continue;
+      airports[iata] = [row[2].trim(), row[3].trim(), Math.round(lat*100)/100, Math.round(lon*100)/100, row[1].trim()];
+    }
+
+    showProgress('Descargando rutas y aerolíneas...', 40);
+    const [routesResp, airlinesResp] = await Promise.all([
+      fetch('https://raw.githubusercontent.com/jpatokal/openflights/master/data/routes.dat'),
+      fetch('https://raw.githubusercontent.com/jpatokal/openflights/master/data/airlines.dat'),
+    ]);
+    const [routesText, airlinesText] = await Promise.all([routesResp.text(), airlinesResp.text()]);
+    showProgress('Procesando...', 75);
+
+    const airlineNames = {};
+    for (const line of airlinesText.split('\n')) {
+      if (!line.trim()) continue;
+      const row = parseCSV(line);
+      if (row.length < 4) continue;
+      const iata = row[3].trim(), name = row[1].trim();
+      if (iata && iata !== '\\N' && iata.length >= 2 && name) airlineNames[iata] = name;
+    }
+
+    const routes = {};
+    for (const line of routesText.split('\n')) {
+      const row = line.split(',');
+      if (row.length < 6) continue;
+      const dep = row[2].trim(), arr = row[4].trim();
+      if (dep.length !== 3 || arr.length !== 3) continue;
+      if ((row[6]||'').trim() === 'Y' || (row[7]||'0').trim() !== '0') continue;
+      if (!airports[dep] || !airports[arr]) continue;
+      if (!routes[dep]) routes[dep] = {};
+      if (!routes[dep][arr]) routes[dep][arr] = [];
+      const al = row[0].trim();
+      if (al && al !== '\\N' && !routes[dep][arr].includes(al)) routes[dep][arr].push(al);
+    }
+
+    state.of.airports = airports; state.of.routes = routes; state.of.airlineNames = airlineNames;
+    state.of.loaded = true; state.of.loading = false;
+    showProgress('¡Listo!', 100);
+    setTimeout(() => document.getElementById('loadingBar').classList.remove('show'), 800);
+    setReady('OpenFlights cargado ✓', numRoutesSummary(state.of));
+    enableInput();
+  } catch(e) {
+    state.of.loading = false;
+    document.getElementById('loadingBar').classList.remove('show');
+    setEmpty('Error al cargar OpenFlights', 'Verificá tu conexión a internet.');
+    showMsg('error', 'Error: ' + e.message);
+  }
+}
+
+// ── OURAIRPORTS LOADER ──────────────────────────────────────────────────────
+async function loadOAData() {
+  state.oa.loading = true; state.of.loading = true;
+  showProgress('Descargando OurAirports 2024...', 5);
+  setEmpty('Cargando OurAirports...', 'Descargando datos actualizados de aeropuertos y rutas.');
+
+  try {
+    // Load OurAirports airports + OpenFlights routes in parallel
+    showProgress('Descargando aeropuertos y rutas...', 15);
+    const [oaResp, routesResp, airlinesResp] = await Promise.all([
+      fetch('https://ourairports.com/data/airports.csv'),
+      fetch('https://raw.githubusercontent.com/jpatokal/openflights/master/data/routes.dat'),
+      fetch('https://raw.githubusercontent.com/jpatokal/openflights/master/data/airlines.dat'),
+    ]);
+    const [oaText, routesText, airlinesText] = await Promise.all([oaResp.text(), routesResp.text(), airlinesResp.text()]);
+    showProgress('Procesando aeropuertos OurAirports...', 55);
+
+    // Parse OurAirports CSV (has header row)
+    // id,ident,type,name,latitude_deg,longitude_deg,elevation_ft,continent,iso_country,iso_region,municipality,scheduled_service,gps_code,iata_code,...
+    const oaAirports = {};
+    const lines = oaText.split('\n');
+    const header = parseCSV(lines[0]);
+    const idx = { iata: header.indexOf('iata_code'), name: header.indexOf('name'), city: header.indexOf('municipality'), country: header.indexOf('iso_country'), lat: header.indexOf('latitude_deg'), lon: header.indexOf('longitude_deg') };
+
+    for (let i = 1; i < lines.length; i++) {
+      if (!lines[i].trim()) continue;
+      const row = parseCSV(lines[i]);
+      const iata = (row[idx.iata]||'').trim();
+      if (!iata || iata.length !== 3) continue;
+      const lat = parseFloat(row[idx.lat]), lon = parseFloat(row[idx.lon]);
+      if (isNaN(lat) || isNaN(lon)) continue;
+      oaAirports[iata] = [
+        (row[idx.city]||'').trim(),    // city
+        (row[idx.country]||'').trim(), // country code
+        Math.round(lat*100)/100,
+        Math.round(lon*100)/100,
+        (row[idx.name]||'').trim(),    // airport name
+      ];
+    }
+
+    // Airline names
+    const airlineNames = {};
+    for (const line of airlinesText.split('\n')) {
+      const row = parseCSV(line);
+      if (row.length < 4) continue;
+      const iata = row[3].trim(), name = row[1].trim();
+      if (iata && iata !== '\\N' && iata.length >= 2 && name) airlineNames[iata] = name;
+    }
+
+    showProgress('Procesando rutas...', 80);
+    // Use OA airports for validation but still load OF routes
+    const routes = {};
+    for (const line of routesText.split('\n')) {
+      const row = line.split(',');
+      if (row.length < 6) continue;
+      const dep = row[2].trim(), arr = row[4].trim();
+      if (dep.length !== 3 || arr.length !== 3) continue;
+      if ((row[6]||'').trim() === 'Y' || (row[7]||'0').trim() !== '0') continue;
+      // Use OA airports if available, else skip
+      if (!oaAirports[dep] || !oaAirports[arr]) continue;
+      if (!routes[dep]) routes[dep] = {};
+      if (!routes[dep][arr]) routes[dep][arr] = [];
+      const al = row[0].trim();
+      if (al && al !== '\\N' && !routes[dep][arr].includes(al)) routes[dep][arr].push(al);
+    }
+
+    // Store in of (shared route data) but with OA airports
+    state.of.airports = oaAirports; state.of.routes = routes; state.of.airlineNames = airlineNames;
+    state.oa.airports = oaAirports;
+    state.of.loaded = true; state.oa.loaded = true;
+    state.of.loading = false; state.oa.loading = false;
+
+    showProgress('¡Listo!', 100);
+    setTimeout(() => document.getElementById('loadingBar').classList.remove('show'), 800);
+    setReady('OurAirports 2024 cargado ✓', `${Object.keys(oaAirports).length.toLocaleString()} aeropuertos · rutas OpenFlights`);
+    enableInput();
+  } catch(e) {
+    state.oa.loading = false; state.of.loading = false;
+    document.getElementById('loadingBar').classList.remove('show');
+    setEmpty('Error al cargar OurAirports', 'Verificá tu conexión a internet.');
+    showMsg('error', 'Error: ' + e.message);
+  }
+}
+
+// ── CSV HANDLER ─────────────────────────────────────────────────────────────
+function handleDragOver(e) { e.preventDefault(); document.getElementById('dropZone').classList.add('drag'); }
+function handleDrop(e) {
+  e.preventDefault();
+  document.getElementById('dropZone').classList.remove('drag');
+  const file = e.dataTransfer.files[0];
+  if (file) processCSVFile(file);
+}
+function handleFileSelect(e) {
+  const file = e.target.files[0];
+  if (file) processCSVFile(file);
+}
+
+function processCSVFile(file) {
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const text = e.target.result;
+      const lines = text.split('\n').filter(l => l.trim());
+      if (lines.length < 2) { showMsg('error','El archivo parece estar vacío.'); return; }
+
+      const header = parseCSV(lines[0]).map(h => h.trim().toLowerCase());
+
+      // Auto-detect columns
+      const COL_ALIASES = {
+        dep: ['dep_iata','dep','from','origin','origen','salida','from_iata','departure','iata_orig'],
+        arr: ['arr_iata','arr','to','destination','destino','llegada','to_iata','arrival','iata_dest'],
+        airline: ['airline','aerolinea','aerolínea','carrier','al','iata_airline','airline_iata'],
+        weekly: ['weekly','frequency','frecuencia','freq','flights_week','vuelos_semana','vuelos'],
+      };
+
+      const colIdx = {};
+      for (const [key, aliases] of Object.entries(COL_ALIASES)) {
+        for (const alias of aliases) {
+          const i = header.indexOf(alias);
+          if (i !== -1) { colIdx[key] = i; break; }
+        }
+      }
+
+      if (colIdx.dep === undefined || colIdx.arr === undefined) {
+        // Show column mapping UI
+        showCSVColMap(header, lines);
+        return;
+      }
+
+      buildCSVData(lines.slice(1), colIdx, header);
+    } catch(err) { showMsg('error', 'Error leyendo CSV: ' + err.message); }
+  };
+  reader.readAsText(file);
+}
+
+function showCSVColMap(header, lines) {
+  const container = document.getElementById('csvColMap');
+  const opts = header.map((h,i) => `<option value="${i}">${h}</option>`).join('');
+  const noneOpt = '<option value="-1">— (ninguna)</option>';
+  container.innerHTML = `
+    <label>Columna Origen:</label>
+    <select id="csvColDep">${opts}</select>
+    <label>Columna Destino:</label>
+    <select id="csvColArr">${opts}</select>
+    <label>Aerolínea:</label>
+    <select id="csvColAl">${noneOpt}${opts}</select>
+    <label>Frecuencia/semana:</label>
+    <select id="csvColWk">${noneOpt}${opts}</select>
+    <button class="btn-save" onclick="applyCSVColMap(${JSON.stringify(lines.slice(1)).replace(/"/g,'&quot;')})">Aplicar</button>`;
+  container.style.display = 'flex';
+}
+
+function applyCSVColMap(lines) {
+  const colIdx = {
+    dep: parseInt(document.getElementById('csvColDep').value),
+    arr: parseInt(document.getElementById('csvColArr').value),
+    airline: parseInt(document.getElementById('csvColAl').value),
+    weekly: parseInt(document.getElementById('csvColWk').value),
+  };
+  buildCSVData(lines, colIdx, []);
+}
+
+function buildCSVData(dataLines, colIdx, header) {
+  const routeMap = {}; // dep -> arr -> {airlines, weekly}
+  let count = 0;
+  for (const line of dataLines) {
+    if (!line.trim()) continue;
+    const row = parseCSV(line);
+    const dep = (row[colIdx.dep]||'').trim().toUpperCase();
+    const arr = (row[colIdx.arr]||'').trim().toUpperCase();
+    if (!dep || !arr || dep === arr) continue;
+    if (!routeMap[dep]) routeMap[dep] = {};
+    if (!routeMap[dep][arr]) routeMap[dep][arr] = { airlines: [], weekly: 0 };
+    const al = colIdx.airline >= 0 ? (row[colIdx.airline]||'').trim() : '';
+    if (al && !routeMap[dep][arr].airlines.includes(al)) routeMap[dep][arr].airlines.push(al);
+    const wk = colIdx.weekly >= 0 ? parseFloat(row[colIdx.weekly]) : 0;
+    if (wk > 0) routeMap[dep][arr].weekly = Math.max(routeMap[dep][arr].weekly, wk);
+    count++;
+  }
+  state.csvData = { routes: routeMap, totalRows: count };
+  document.getElementById('csvColMap').style.display = 'none';
+  setReady('CSV cargado ✓', `${count} rutas en ${Object.keys(routeMap).length} aeropuertos de origen`);
+  enableInput();
+  showMsg('info', `CSV procesado: ${count} filas, ${Object.keys(routeMap).length} orígenes únicos`);
+}
+
+// ── PROGRESS / UI HELPERS ────────────────────────────────────────────────────
+function showProgress(text, pct) {
+  const bar = document.getElementById('loadingBar');
+  bar.classList.add('show');
+  document.getElementById('loadingText').textContent = text;
+  document.getElementById('loadingFill').style.width = pct + '%';
+}
+
+function setEmpty(title, desc) {
+  document.getElementById('emptyTitle').textContent = title;
+  document.getElementById('emptyDesc').textContent = desc;
+  document.getElementById('emptyState').style.display = 'block';
+  document.getElementById('mainContent').classList.remove('show');
+  document.querySelector('.ready-badge')?.remove();
+}
+
+function setReady(title, desc) {
+  setEmpty(title, desc);
+  const empty = document.getElementById('emptyState');
+  const badge = document.createElement('div');
+  badge.className = 'ready-badge';
+  badge.innerHTML = '<span>✓ Ingresá una ciudad o código IATA arriba para buscar</span>';
+  empty.appendChild(badge);
+}
+
+function hideMessages() { ['errorBar','infoBar','warnBar'].forEach(id => document.getElementById(id).classList.remove('show')); }
 function showMsg(type, msg) {
-  ['errorBar','infoBar'].forEach(id => { document.getElementById(id).classList.remove('show'); });
-  const el = document.getElementById(type === 'error' ? 'errorBar' : 'infoBar');
+  hideMessages();
+  const el = document.getElementById({error:'errorBar',info:'infoBar',warn:'warnBar'}[type]||'infoBar');
   el.textContent = msg; el.classList.add('show');
-  if (type !== 'error') setTimeout(() => el.classList.remove('show'), 5000);
+  if (type !== 'error') setTimeout(() => el.classList.remove('show'), 6000);
 }
-
 function setLoading(yes) {
   const btn = document.getElementById('searchBtn');
   btn.disabled = yes;
   btn.innerHTML = yes ? '<span class="spinner"></span>Buscando...' : 'Buscar';
 }
-
 function showTab(name, el) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('panel-' + name).classList.add('active');
+  document.getElementById('panel-'+name).classList.add('active');
   el.classList.add('active');
+  if (name === 'map') renderMap();
 }
 
-// ── API ─────────────────────────────────────────────────────────────────────
-async function apiGet(endpoint) {
-  const sep = endpoint.includes('?') ? '&' : '?';
-  const r = await fetch(`https://airlabs.co/api/v9/${endpoint}${sep}api_key=${state.apiKey}`);
+// ── CITY → IATA MAP ──────────────────────────────────────────────────────────
+const CITY_TO_IATA = {
+  'buenos aires':['EZE','AEP'],'ezeiza':'EZE','aeroparque':'AEP',
+  'madrid':'MAD','barcelona':'BCN','miami':'MIA','new york':['JFK','LGA','EWR'],
+  'nueva york':['JFK','LGA','EWR'],'london':['LHR','LGW','STN'],'londres':['LHR','LGW'],
+  'paris':['CDG','ORY'],'frankfurt':'FRA','amsterdam':'AMS','rome':'FCO','roma':'FCO',
+  'dubai':'DXB','singapore':'SIN','singapur':'SIN','sydney':'SYD',
+  'tokio':['NRT','HND'],'tokyo':['NRT','HND'],'lima':'LIM','bogota':'BOG','bogotá':'BOG',
+  'santiago':'SCL','sao paulo':['GRU','CGH'],'são paulo':['GRU','CGH'],'montevideo':'MVD',
+  'asuncion':'ASU','asunción':'ASU','panama':'PTY','panamá':'PTY',
+  'mexico':['MEX','NLU'],'méxico':['MEX','NLU'],'ciudad de mexico':'MEX','ciudad de méxico':'MEX',
+  'cordoba':'COR','córdoba':'COR','mendoza':'MDZ','rosario':'ROS','bariloche':'BRC',
+  'salta':'SLA','iguazu':'IGR','iguazú':'IGR','ushuaia':'USH','tucuman':'TUC','tucumán':'TUC',
+  'atlanta':'ATL','los angeles':'LAX','chicago':['ORD','MDW'],'boston':'BOS',
+  'san francisco':'SFO','dallas':'DFW','washington':['DCA','IAD'],
+  'lisbon':'LIS','lisboa':'LIS','zurich':'ZRH','vienna':'VIE','viena':'VIE','munich':'MUC',
+  'istanbul':'IST','doha':'DOH','toronto':['YYZ','YTZ'],'johannesburg':'JNB',
+  'johannesburgo':'JNB','cairo':'CAI','el cairo':'CAI','nairobi':'NBO',
+  'vancouver':'YVR','auckland':'AKL','milan':['MXP','LIN'],'milano':['MXP','LIN'],
+  'milan':'MXP','rio de janeiro':['GIG','SDU'],'beijing':['PEK','PKX'],'pekin':'PEK',
+};
+
+// ── AIRPORT FINDER ──────────────────────────────────────────────────────────
+function findAllAirports(query) {
+  if (!state.of.airports) throw new Error('Base de datos no cargada.');
+  const q = query.trim(), qUp = q.toUpperCase(), qLow = q.toLowerCase();
+
+  if (/^[A-Z]{3}$/.test(qUp) && state.of.airports[qUp]) {
+    const a = state.of.airports[qUp];
+    return [{ iata: qUp, city: a[0], country: a[1], lat: a[2], lon: a[3], name: a[4] }];
+  }
+
+  const mapped = CITY_TO_IATA[qLow];
+  if (mapped) {
+    const iatas = Array.isArray(mapped) ? mapped : [mapped];
+    const res = iatas.filter(i => state.of.airports[i]).map(i => {
+      const a = state.of.airports[i];
+      return { iata: i, city: a[0], country: a[1], lat: a[2], lon: a[3], name: a[4] };
+    });
+    if (res.length) return res;
+  }
+
+  const byCity = {};
+  for (const [iata, d] of Object.entries(state.of.airports)) {
+    if (d[0].toLowerCase().includes(qLow) || d[4].toLowerCase().includes(qLow) || iata.toLowerCase() === qLow) {
+      if (!byCity[d[0]]) byCity[d[0]] = [];
+      byCity[d[0]].push({ iata, city: d[0], country: d[1], lat: d[2], lon: d[3], name: d[4] });
+    }
+  }
+  const all = Object.values(byCity).flat();
+  if (!all.length) throw new Error(`No se encontró aeropuerto para "${q}". Probá con el código IATA.`);
+  const withRoutes = all.filter(r => state.of.routes[r.iata]);
+  return withRoutes.length ? withRoutes : all;
+}
+
+// ── OF / OA SEARCH ──────────────────────────────────────────────────────────
+function buildOFRoutes(depIata) {
+  const depRoutes = state.of.routes[depIata];
+  if (!depRoutes) return [];
+  const depData = state.of.airports[depIata];
+  const depCountry = depData?.[1] || '';
+  return Object.entries(depRoutes).map(([arr, airlines]) => {
+    const ad = state.of.airports[arr];
+    const ac = ad?.[1] || '';
+    return { arr_iata: arr, city: ad?.[0]||arr, country: ac, airlines, weekly: airlines.length,
+      domestic: ac === depCountry && depCountry !== '',
+      origin_iata: depIata, origin_name: depData?.[4]||depIata, origin_city: depData?.[0]||depIata };
+  }).sort((a,b) => b.weekly - a.weekly);
+}
+
+async function searchOF(city) {
+  const apts = findAllAirports(city);
+  const allRoutes = [];
+  for (const apt of apts) allRoutes.push(...buildOFRoutes(apt.iata));
+  if (!allRoutes.length) { showMsg('warn', `Sin rutas directas desde ${city} en la base de datos.`); return; }
+  state.airport  = { iata_code: apts[0].iata, city: apts[0].city, name: apts[0].name };
+  state.airports = apts; state.routes = allRoutes; state.lastUpdated = new Date();
+  render(state.mode === 'ourairports' ? 'oa' : 'of');
+}
+
+// ── AIRLABS ─────────────────────────────────────────────────────────────────
+async function apiGetAL(ep) {
+  const sep = ep.includes('?') ? '&' : '?';
+  const r = await fetch(`https://airlabs.co/api/v9/${ep}${sep}api_key=${K.airlabs}`);
   const d = await r.json();
   if (d.error) throw new Error(d.error.message || JSON.stringify(d.error));
   return d;
 }
 
-// Mapa de ciudades comunes a IATA para evitar llamada a suggest
-const CITY_TO_IATA = {
-  'buenos aires':['EZE','AEP'],'ezeiza':'EZE','aeroparque':'AEP',
-  'madrid':'MAD','barcelona':'BCN','miami':'MIA','new york':'JFK',
-  'nueva york':'JFK','london':'LHR','londres':'LHR','paris':'CDG',
-  'paris':'CDG','frankfurt':'FRA','amsterdam':'AMS','rome':'FCO',
-  'roma':'FCO','dubai':'DXB','singapore':'SIN','singapur':'SIN',
-  'sydney':'SYD','tokio':'NRT','tokyo':'NRT','lima':'LIM',
-  'bogota':'BOG','bogotá':'BOG','santiago':'SCL','sao paulo':'GRU',
-  'são paulo':'GRU','montevideo':'MVD','asuncion':'ASU','asunción':'ASU',
-  'panama':'PTY','panamá':'PTY','mexico':'MEX','méxico':'MEX',
-  'ciudad de mexico':'MEX','ciudad de méxico':'MEX',
-  'cordoba':'COR','córdoba':'COR','mendoza':'MDZ','rosario':'ROS',
-  'bariloche':'BRC','salta':'SLA','iguazu':'IGR','iguazú':'IGR',
-  'ushuaia':'USH','tucuman':'TUC','tucumán':'TUC',
-  'atlanta':'ATL','los angeles':'LAX','chicago':'ORD','boston':'BOS',
-  'san francisco':'SFO','dallas':'DFW','washington':'DCA',
-  'lisbon':'LIS','lisboa':'LIS','zurich':'ZRH','zurich':'ZRH',
-  'vienna':'VIE','viena':'VIE','munich':'MUC','munich':'MUC',
-  'istanbul':'IST','istanbul':'IST','doha':'DOH',
-  'johannesburg':'JNB','johannesburgo':'JNB','cairo':'CAI','el cairo':'CAI',
-  'nairobi':'NBO','toronto':'YYZ','vancouver':'YVR','auckland':'AKL',
-};
+async function searchAirLabs(city) {
+  const qLow = city.trim().toLowerCase();
+  const mapped = CITY_TO_IATA[qLow];
+  let iatas = mapped ? (Array.isArray(mapped)?mapped:[mapped]) : (/^[A-Z]{3}$/.test(city.trim().toUpperCase())?[city.trim().toUpperCase()]:null);
 
-async function findAirport(city) {
-  const key = city.trim().toLowerCase();
-  
-  // Verificar si es un código IATA directo (3 letras mayúsculas)
-  if (/^[A-Z]{3}$/.test(city.trim().toUpperCase())) {
-    const iata = city.trim().toUpperCase();
-    return { iata_code: iata, name: iata, city: iata, country_code: '' };
-  }
-  
-  // Buscar en mapa local
-  const localIata = CITY_TO_IATA[key];
-  if (localIata) {
-    const iata = Array.isArray(localIata) ? localIata[0] : localIata;
-    return { iata_code: iata, name: city, city: city, country_code: '' };
-  }
-  
-  // Intentar con suggest API
-  try {
-    const d = await apiGet(`suggest?q=${encodeURIComponent(city)}`);
-    const airports = d.response?.airports || [];
-    if (airports.length) return airports[0];
-  } catch(e) { /* fallback */ }
-  
-  throw new Error(`No se encontró aeropuerto para "${city}". Probá con el código IATA (ej: EZE, MAD, MIA)`);
-}
-
-// MÚLTIPLES LLAMADAS por aerolínea — evita el límite de 50 resultados
-async function fetchRoutes(iata) {
-  // Paso 1: obtener todas las aerolíneas que operan desde este aeropuerto
-  showMsg('info', 'Obteniendo aerolíneas...');
-  const firstCall = await apiGet(`routes?dep_iata=${iata}&limit=50&offset=0`);
-  const firstBatch = firstCall.response || [];
-
-  // Recolectar aerolíneas únicas de la primera página
-  const airlineCodes = new Set();
-  firstBatch.forEach(r => { if (r.airline_iata && !r.cs_airline_iata) airlineCodes.add(r.airline_iata); });
-
-  // Si no hay más páginas, retornar directo
-  if (!firstCall.request?.has_more) return firstBatch;
-
-  // Paso 2: para cada aerolínea, traer sus rutas específicas desde este aeropuerto
-  showMsg('info', `Cargando rutas de ${airlineCodes.size} aerolíneas...`);
-  const allRoutes = [...firstBatch];
-  const seen = new Set(firstBatch.map(r => r.flight_iata || r.flight_number));
-
-  // También paginar la primera llamada por si hay más aerolíneas
-  let offset = 50, hasMore = firstCall.request?.has_more;
-  while (hasMore) {
-    const d = await apiGet(`routes?dep_iata=${iata}&limit=50&offset=${offset}`);
-    const batch = d.response || [];
-    batch.forEach(r => {
-      if (r.airline_iata && !r.cs_airline_iata) airlineCodes.add(r.airline_iata);
-      const key = r.flight_iata || r.flight_number;
-      if (!seen.has(key)) { seen.add(key); allRoutes.push(r); }
-    });
-    hasMore = d.request?.has_more === true && batch.length === 50;
-    offset += 50;
-    if (offset > 500) break;
+  if (!iatas) {
+    showMsg('info','Buscando aeropuerto...');
+    try { const d = await apiGetAL(`suggest?q=${encodeURIComponent(city)}`); iatas = [(d.response?.airports||[])[0]?.iata_code]; } catch(e) {}
+    if (!iatas?.[0]) throw new Error(`No se encontró aeropuerto para "${city}"`);
   }
 
-  // Paso 3: llamada por cada aerolínea para asegurar cobertura completa
-  const airlineList = Array.from(airlineCodes);
-  for (let i = 0; i < airlineList.length; i++) {
-    const airline = airlineList[i];
-    showMsg('info', `Cargando ${airline} (${i+1}/${airlineList.length})...`);
+  const apts = [];
+  for (const iata of iatas.filter(Boolean)) {
+    const info = { iata_code: iata, city, name: iata, country_code: '' };
+    try { const d = await apiGetAL(`airports?iata_code=${iata}`); const a=(d.response||[])[0]; if(a){info.name=a.name;info.city=a.city||city;info.country_code=a.country_code;} } catch(e){}
+    apts.push(info);
+  }
+
+  let domesticIATAs = new Set();
+  try { const cc=apts[0]?.country_code; if(cc){const d=await apiGetAL(`airports?country_code=${cc}`);(d.response||[]).forEach(a=>domesticIATAs.add(a.iata_code));} } catch(e){}
+
+  const allRoutes = [];
+  for (const apt of apts) {
+    showMsg('info',`Cargando rutas desde ${apt.name} (${apt.iata_code})...`);
     try {
-      let off = 0, more = true;
-      while (more) {
-        const d = await apiGet(`routes?dep_iata=${iata}&airline_iata=${airline}&limit=50&offset=${off}`);
-        const batch = d.response || [];
-        batch.forEach(r => {
-          if (r.cs_airline_iata) return; // ignorar codeshares
-          const key = (r.flight_iata || r.flight_number || '') + r.arr_iata;
-          if (!seen.has(key)) { seen.add(key); allRoutes.push(r); }
-        });
-        more = d.request?.has_more === true && batch.length === 50;
-        off += 50;
-        if (off > 200) break;
-      }
-    } catch(e) { /* continuar con la siguiente aerolínea */ }
+      const raw = await fetchRoutesAL(apt.iata_code);
+      const routes = processRoutesAL(raw, apt.iata_code, domesticIATAs);
+      routes.forEach(r => { r.origin_iata=apt.iata_code; r.origin_name=apt.name; r.origin_city=apt.city; });
+      allRoutes.push(...routes);
+    } catch(e) { showMsg('warn',`No se pudieron cargar rutas desde ${apt.iata_code}: ${e.message}`); }
+  }
+  if (!allRoutes.length) throw new Error('Sin rutas encontradas.');
+
+  state.airport = { iata_code: apts[0].iata_code, city: apts[0].city, name: apts[0].name };
+  state.airports = apts; state.routes = allRoutes.sort((a,b)=>b.weekly-a.weekly); state.lastUpdated = new Date();
+  hideMessages(); render('al');
+}
+
+async function fetchRoutesAL(iata) {
+  const first = await apiGetAL(`routes?dep_iata=${iata}&limit=50&offset=0`);
+  const all = [...(first.response||[])];
+  const seen = new Set(all.map(r=>r.flight_iata||r.flight_number));
+  const airlines = new Set(all.filter(r=>!r.cs_airline_iata).map(r=>r.airline_iata));
+  if (!first.request?.has_more) return all;
+  let off=50, more=true;
+  while(more) {
+    const d = await apiGetAL(`routes?dep_iata=${iata}&limit=50&offset=${off}`);
+    (d.response||[]).forEach(r=>{const k=r.flight_iata||r.flight_number;if(!seen.has(k)){seen.add(k);all.push(r);}if(!r.cs_airline_iata)airlines.add(r.airline_iata);});
+    more = d.request?.has_more===true && (d.response||[]).length===50; off+=50; if(off>500)break;
+  }
+  for (const al of airlines) {
+    showMsg('info',`Cargando ${al}...`);
+    try { let o=0,m=true; while(m){const d=await apiGetAL(`routes?dep_iata=${iata}&airline_iata=${al}&limit=50&offset=${o}`);(d.response||[]).forEach(r=>{if(r.cs_airline_iata)return;const k=(r.flight_iata||r.flight_number||'')+r.arr_iata;if(!seen.has(k)){seen.add(k);all.push(r);}});m=d.request?.has_more===true&&(d.response||[]).length===50;o+=50;if(o>200)break;}} catch(e){}
+  }
+  return all;
+}
+
+function processRoutesAL(raw, originIata, domesticIATAs) {
+  const byFlight = {};
+  raw.forEach(r=>{const arr=r.arr_iata;if(!arr||arr===originIata||r.cs_airline_iata)return;const k=arr+'_'+(r.flight_iata||r.flight_number||Math.random());if(!byFlight[k])byFlight[k]={arr,airline:r.airline_iata,days:new Set()};(r.days||[]).forEach(d=>byFlight[k].days.add(d));});
+  const grouped={};
+  Object.values(byFlight).forEach(f=>{const arr=f.arr;if(!grouped[arr])grouped[arr]={arr_iata:arr,airlines:new Set(),weekly:0,domestic:domesticIATAs.has(arr)};grouped[arr].weekly+=f.days.size;if(f.airline)grouped[arr].airlines.add(f.airline);});
+  return Object.values(grouped).map(g=>{
+    const ad = state.of.loaded && state.of.airports[g.arr_iata];
+    return {...g, airlines:Array.from(g.airlines), city: ad?ad[0]:g.arr_iata, country: ad?ad[1]:'' };
+  }).sort((a,b)=>b.weekly-a.weekly);
+}
+
+// ── AVIATIONSTACK ────────────────────────────────────────────────────────────
+async function searchAviationStack(city) {
+  const qLow = city.trim().toLowerCase();
+  const mapped = CITY_TO_IATA[qLow];
+  const iatas = mapped ? (Array.isArray(mapped)?mapped:[mapped]) : (/^[A-Z]{3}$/.test(city.trim().toUpperCase())?[city.trim().toUpperCase()]:[city.trim().toUpperCase()]);
+
+  const apts = [];
+  for (const iata of iatas) {
+    let info = { iata_code: iata, city, name: iata, country_code: '' };
+    if (state.of.loaded && state.of.airports[iata]) {
+      const a = state.of.airports[iata]; info = { iata_code: iata, city: a[0], name: a[4], country_code: a[1] };
+    }
+    apts.push(info);
   }
 
-  return allRoutes;
+  // AviationStack free plan uses HTTP (no HTTPS) - note this limitation
+  const base = `http://api.aviationstack.com/v1`;
+  const allRoutes = [];
+  let domesticIATAs = new Set();
+  if (apts[0].country_code) {
+    try { const d = await fetch(`${base}/airports?access_key=${K.aviationstack}&country_iso2=${apts[0].country_code}&limit=500`).then(r=>r.json()); (d.data||[]).forEach(a=>domesticIATAs.add(a.iata_code)); } catch(e) {}
+  }
+
+  for (const apt of apts) {
+    showMsg('info', `Cargando rutas AviationStack desde ${apt.iata_code}...`);
+    let offset = 0, total = 1;
+    while (offset < Math.min(total, 500)) {
+      try {
+        const url = `${base}/routes?access_key=${K.aviationstack}&dep_iata=${apt.iata_code}&limit=100&offset=${offset}`;
+        const d = await fetch(url).then(r=>r.json());
+        if (d.error) throw new Error(d.error.info || JSON.stringify(d.error));
+        total = d.pagination?.total || 0;
+        const batch = d.data || [];
+        const grouped = {};
+        batch.forEach(r => {
+          const arr = r.arrival?.iata; const al = r.airline?.iata_code; const days = r.days || [];
+          if (!arr || r.stops > 0) return;
+          if (!grouped[arr]) grouped[arr] = { arr_iata: arr, airlines: new Set(), days: new Set(), domestic: domesticIATAs.has(arr) };
+          if (al) grouped[arr].airlines.add(al);
+          days.forEach(d2 => grouped[arr].days.add(d2));
+        });
+        Object.values(grouped).forEach(g => {
+          const ad = state.of.loaded && state.of.airports[g.arr_iata];
+          allRoutes.push({ ...g, airlines: Array.from(g.airlines), weekly: g.days.size || g.airlines.size,
+            city: ad?ad[0]:g.arr_iata, country: ad?ad[1]:'',
+            origin_iata: apt.iata_code, origin_name: apt.name, origin_city: apt.city });
+        });
+        offset += batch.length || 100;
+        if (!batch.length) break;
+      } catch(e) { showMsg('warn',`AviationStack: ${e.message}`); break; }
+    }
+  }
+
+  if (!allRoutes.length) throw new Error('Sin rutas encontradas. El plan gratuito de AviationStack puede no incluir el endpoint /routes — verificá tu plan.');
+  state.airport = { iata_code: apts[0].iata_code, city: apts[0].city, name: apts[0].name };
+  state.airports = apts; state.routes = allRoutes.sort((a,b)=>b.weekly-a.weekly); state.lastUpdated = new Date();
+  hideMessages(); render('as');
 }
 
-// ── PROCESS ─────────────────────────────────────────────────────────────────
-function processRoutes(rawRoutes, originIata, domesticIATAs) {
-  // Agrupar por arr_iata, deduplicar codeshares
-  const byFlight = {};
-  rawRoutes.forEach(r => {
-    const arr = r.arr_iata;
-    if (!arr || arr === originIata) return;
-    if (r.cs_airline_iata) return; // ignorar codeshares
-    const fkey = arr + '_' + (r.flight_iata || r.flight_number || Math.random());
-    if (!byFlight[fkey]) byFlight[fkey] = { arr_iata: arr, airline: r.airline_iata, days: new Set() };
-    (r.days || []).forEach(d => byFlight[fkey].days.add(d));
+// ── AMADEUS ──────────────────────────────────────────────────────────────────
+async function getAmadeusToken() {
+  if (state.amadeusToken && Date.now() < state.amadeusTokenExpiry) return state.amadeusToken;
+  const resp = await fetch('https://test.api.amadeus.com/v1/security/oauth2/token', {
+    method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: `grant_type=client_credentials&client_id=${K.amadeusId}&client_secret=${K.amadeusSecret}`,
   });
-
-  const grouped = {};
-  Object.values(byFlight).forEach(f => {
-    const arr = f.arr_iata;
-    if (!grouped[arr]) grouped[arr] = { arr_iata: arr, airlines: new Set(), weekly: 0, domestic: domesticIATAs.has(arr) };
-    grouped[arr].weekly += f.days.size;
-    if (f.airline) grouped[arr].airlines.add(f.airline);
-  });
-
-  return Object.values(grouped)
-    .map(g => ({ ...g, airlines: Array.from(g.airlines) }))
-    .sort((a,b) => b.weekly - a.weekly);
+  const d = await resp.json();
+  if (d.error) throw new Error(d.error_description || d.error);
+  state.amadeusToken = d.access_token;
+  state.amadeusTokenExpiry = Date.now() + (d.expires_in - 60) * 1000;
+  return state.amadeusToken;
 }
 
-// ── SEARCH ─────────────────────────────────────────────────────────────────
+async function searchAmadeus(city) {
+  showMsg('info', 'Autenticando con Amadeus...');
+  const token = await getAmadeusToken();
+
+  const qLow = city.trim().toLowerCase();
+  const mapped = CITY_TO_IATA[qLow];
+  let iata = mapped ? (Array.isArray(mapped) ? mapped[0] : mapped) : city.trim().toUpperCase();
+
+  if (!state.of.airports?.[iata] && !/^[A-Z]{3}$/.test(iata)) {
+    // Try Amadeus airport search
+    const sr = await fetch(`https://test.api.amadeus.com/v1/reference-data/locations?subType=AIRPORT&keyword=${encodeURIComponent(city)}&page[limit]=5`, { headers: { Authorization: `Bearer ${token}` } }).then(r=>r.json());
+    iata = sr.data?.[0]?.iataCode;
+    if (!iata) throw new Error(`No se encontró aeropuerto para "${city}"`);
+  }
+
+  showMsg('info', `Buscando destinos desde ${iata} en Amadeus...`);
+  // Flight Destinations (Inspiration Search)
+  const flightDest = await fetch(`https://test.api.amadeus.com/v1/shopping/flight-destinations?origin=${iata}&maxPrice=10000&currency=USD`, { headers: { Authorization: `Bearer ${token}` } }).then(r=>r.json());
+
+  const destSet = new Set((flightDest.data||[]).map(d => d.destination));
+
+  // Airline destinations for each airline we know from this airport
+  // Use OF data if available to get airline codes
+  const airlineCodes = new Set();
+  if (state.of.loaded && state.of.routes[iata]) {
+    Object.values(state.of.routes[iata]).forEach(als => als.forEach(al => airlineCodes.add(al)));
+  }
+
+  const airlineDestMap = {}; // arr_iata -> Set of airline codes
+  if (airlineCodes.size > 0 && airlineCodes.size <= 15) {
+    for (const al of airlineCodes) {
+      try {
+        const ad = await fetch(`https://test.api.amadeus.com/v1/airline/destinations?airlineCode=${al}&max=200`, { headers: { Authorization: `Bearer ${token}` } }).then(r=>r.json());
+        (ad.data||[]).forEach(d => {
+          const arr = d.iataCode;
+          if (!airlineDestMap[arr]) airlineDestMap[arr] = new Set();
+          airlineDestMap[arr].add(al);
+          destSet.add(arr);
+        });
+      } catch(e) {}
+    }
+  }
+
+  if (!destSet.size) throw new Error('Amadeus no devolvió destinos para este aeropuerto. El sandbox puede tener datos limitados para este origen.');
+
+  const aptInfo = state.of.loaded && state.of.airports[iata] ? state.of.airports[iata] : null;
+  const depCountry = aptInfo?.[1] || '';
+  const routes = Array.from(destSet)
+    .filter(arr => arr !== iata)
+    .map(arr => {
+      const ad = state.of.loaded && state.of.airports[arr];
+      const airlines = airlineDestMap[arr] ? Array.from(airlineDestMap[arr]) : (state.of.routes[iata]?.[arr] || []);
+      return {
+        arr_iata: arr, city: ad?ad[0]:arr, country: ad?ad[1]:'',
+        airlines, weekly: airlines.length || 1,
+        domestic: depCountry && ad?.[1] === depCountry,
+        origin_iata: iata, origin_name: aptInfo?.[4]||iata, origin_city: aptInfo?.[0]||iata,
+      };
+    }).sort((a,b) => b.weekly - a.weekly);
+
+  state.airport  = { iata_code: iata, city: aptInfo?.[0]||iata, name: aptInfo?.[4]||iata };
+  state.airports = [state.airport]; state.routes = routes; state.lastUpdated = new Date();
+  hideMessages(); render('am');
+}
+
+// ── CSV SEARCH ───────────────────────────────────────────────────────────────
+function searchCSV(query) {
+  const q = query.trim().toUpperCase();
+  const csv = state.csvData;
+  if (!csv) throw new Error('No hay archivo CSV cargado.');
+
+  // Try exact IATA match
+  let depIatas = [];
+  if (csv.routes[q]) { depIatas = [q]; }
+  else {
+    // Check CITY_TO_IATA
+    const mapped = CITY_TO_IATA[query.trim().toLowerCase()];
+    if (mapped) depIatas = (Array.isArray(mapped)?mapped:[mapped]).filter(i => csv.routes[i]);
+    // Partial match
+    if (!depIatas.length) depIatas = Object.keys(csv.routes).filter(iata => iata.includes(q) || q.includes(iata));
+    if (!depIatas.length) throw new Error(`No se encontraron rutas desde "${query}" en el CSV.`);
+  }
+
+  const allRoutes = [];
+  for (const dep of depIatas) {
+    const depData = state.of.loaded && state.of.airports[dep];
+    const depCountry = depData?.[1] || '';
+    for (const [arr, info] of Object.entries(csv.routes[dep])) {
+      const ad = state.of.loaded && state.of.airports[arr];
+      allRoutes.push({
+        arr_iata: arr, city: ad?ad[0]:arr, country: ad?ad[1]:'',
+        airlines: info.airlines.length ? info.airlines : ['—'],
+        weekly: info.weekly || info.airlines.length || 1,
+        domestic: depCountry && ad?.[1] === depCountry,
+        origin_iata: dep,
+        origin_name: depData?.[4]||dep, origin_city: depData?.[0]||dep,
+      });
+    }
+  }
+
+  const depData = state.of.loaded && state.of.airports[depIatas[0]];
+  state.airport = { iata_code: depIatas[0], city: depData?.[0]||depIatas[0], name: depData?.[4]||depIatas[0] };
+  state.airports = depIatas.map(i => { const a=state.of.airports?.[i]; return { iata:i, iata_code:i, city:a?.[0]||i, name:a?.[4]||i }; });
+  state.routes = allRoutes.sort((a,b)=>b.weekly-a.weekly); state.lastUpdated = new Date();
+  render('csv');
+}
+
+// ── MAIN SEARCH ──────────────────────────────────────────────────────────────
 async function search() {
   const city = document.getElementById('cityInput').value.trim();
   if (!city) return;
-  if (!state.apiKey) { toggleConfig(); showMsg('error','Configurá tu API key primero.'); return; }
-  setLoading(true);
-  document.getElementById('errorBar').classList.remove('show');
-
+  hideMessages(); setLoading(true);
   try {
-    const airport = await findAirport(city);
-    showMsg('info', `Cargando rutas desde ${airport.name || airport.city} (${airport.iata_code})...`);
-
-    // Si no tenemos country_code, lo obtenemos de la DB de aeropuertos
-    if (!airport.country_code) {
-      try {
-        const d = await apiGet(`airports?iata_code=${airport.iata_code}`);
-        const apt = (d.response || [])[0];
-        if (apt) {
-          airport.country_code = apt.country_code;
-          airport.name = apt.name || airport.name;
-          airport.city = apt.city || airport.city;
-        }
-      } catch(e) {}
-    }
-
-    const rawRoutes = await fetchRoutes(airport.iata_code);
-
-    // Aeropuertos domésticos
-    let domesticIATAs = new Set();
-    try {
-      if (airport.country_code) {
-        const d = await apiGet(`airports?country_code=${airport.country_code}`);
-        (d.response || []).forEach(a => domesticIATAs.add(a.iata_code));
-      }
-    } catch(e) {}
-
-    const routes = processRoutes(rawRoutes, airport.iata_code, domesticIATAs);
-
-    state.airport = airport;
-    state.routes = routes;
-    state.lastUpdated = new Date();
-
-    document.getElementById('infoBar').classList.remove('show');
-    render();
-    document.getElementById('updateBtn').style.display = 'block';
-  } catch(e) {
-    showMsg('error', 'Error: ' + e.message);
-  } finally {
-    setLoading(false);
-  }
+    if      (state.mode === 'openflights')   await searchOF(city);
+    else if (state.mode === 'ourairports')   await searchOF(city);
+    else if (state.mode === 'airlabs')       await searchAirLabs(city);
+    else if (state.mode === 'aviationstack') await searchAviationStack(city);
+    else if (state.mode === 'amadeus')       await searchAmadeus(city);
+    else if (state.mode === 'csv')           searchCSV(city);
+  } catch(e) { showMsg('error','Error: ' + e.message); }
+  finally { setLoading(false); }
 }
 
-async function updateData() {
-  if (!state.airport) return;
-  const btn = document.getElementById('updateBtn');
-  btn.textContent = '⟳ Actualizando...'; btn.disabled = true;
-  try {
-    const rawRoutes = await fetchRoutes(state.airport.iata_code);
-    const domMap = {};
-    state.routes.forEach(r => { domMap[r.arr_iata] = r.domestic; });
-    const domesticIATAs = new Set(Object.entries(domMap).filter(([,v])=>v).map(([k])=>k));
-    state.routes = processRoutes(rawRoutes, state.airport.iata_code, domesticIATAs);
-    state.lastUpdated = new Date();
-    render();
-  } catch(e) { showMsg('error','Error al actualizar: ' + e.message); }
-  finally { btn.textContent = '⟳ Actualizar'; btn.disabled = false; }
-}
+// ── RENDER ───────────────────────────────────────────────────────────────────
+const SRC_TAGS = {
+  of:  { cls:'tag-of',  txt:'🌐 OpenFlights 2017' },
+  oa:  { cls:'tag-oa',  txt:'🗺 OurAirports 2024' },
+  al:  { cls:'tag-al',  txt:'🔑 AirLabs · Tiempo real' },
+  as:  { cls:'tag-as',  txt:'📡 AviationStack' },
+  am:  { cls:'tag-am',  txt:'🎫 Amadeus Sandbox' },
+  csv: { cls:'tag-csv', txt:'📄 CSV Propio' },
+};
 
-// ── RENDER ─────────────────────────────────────────────────────────────────
-function render() {
+function render(src) {
   document.getElementById('emptyState').style.display = 'none';
   document.getElementById('mainContent').classList.add('show');
 
-  const { airport, routes, lastUpdated } = state;
-  const domRoutes = routes.filter(r => r.domestic);
+  const { airport, routes } = state;
+  const allApts = state.airports || [airport];
+  const isMulti = allApts.length > 1;
+  const isAL    = src === 'al' || src === 'as';  // has weekly frequency
+  const domRoutes  = routes.filter(r => r.domestic);
   const intlRoutes = routes.filter(r => !r.domestic);
-  const totalW = routes.reduce((s,r) => s+(r.weekly||0), 0);
-  const domW = domRoutes.reduce((s,r) => s+(r.weekly||0), 0);
-  const intlW = intlRoutes.reduce((s,r) => s+(r.weekly||0), 0);
 
   // Airline summary
   const airMap = {};
-  routes.forEach(r => {
-    (r.airlines||[]).forEach(a => {
-      if (!airMap[a]) airMap[a] = {code:a,routes:0,domestic:0,international:0,weekly:0};
-      airMap[a].routes++; airMap[a].weekly += r.weekly||0;
-      if (r.domestic) airMap[a].domestic++; else airMap[a].international++;
-    });
-  });
-  state.airlines = Object.values(airMap).sort((a,b) => b.weekly - a.weekly);
+  routes.forEach(r => (r.airlines||[]).forEach(a => {
+    if (!airMap[a]) airMap[a] = { code:a, routes:0, domestic:0, international:0, weekly:0 };
+    airMap[a].routes++; airMap[a].weekly += r.weekly||0;
+    if (r.domestic) airMap[a].domestic++; else airMap[a].international++;
+  }));
+  state.airlines = Object.values(airMap).sort((a,b) => b.routes - a.routes);
+
+  // Source tag
+  const t = SRC_TAGS[src] || SRC_TAGS.of;
+  const tag = document.getElementById('srcTag');
+  tag.className = 'src-tag ' + t.cls; tag.textContent = t.txt;
 
   // Header
   document.getElementById('destCity').textContent = airport.city || airport.name;
-  document.getElementById('destSub').textContent = `${airport.name} · ${airport.iata_code}`;
-  const tag = document.getElementById('updatedTag');
-  tag.style.display = 'block';
-  tag.textContent = `Al ${lastUpdated.toLocaleDateString('es-AR')} ${lastUpdated.toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'})}`;
+  if (isMulti) {
+    const chips = allApts.map(a => `<span class="apt-chip">${a.iata_code||a.iata} · ${a.name||a.iata_code||a.iata}</span>`).join('');
+    document.getElementById('destSub').innerHTML = `${allApts.length} aeropuertos combinados <div class="apt-chips">${chips}</div>`;
+  } else {
+    document.getElementById('destSub').textContent = `${airport.name} · ${airport.iata_code}`;
+  }
+  const utag = document.getElementById('updatedTag');
+  utag.style.display = 'block';
+  utag.textContent = `${state.lastUpdated.toLocaleDateString('es-AR')} ${state.lastUpdated.toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'})}`;
+
+  // Metric labels
+  const metricLbl = isAL ? 'vuelos / semana' : 'aerolíneas operadoras';
+  document.getElementById('citiesMetric').textContent = metricLbl;
+  document.getElementById('mapHint').textContent = isAL ? 'Grosor = vuelos/semana' : 'Grosor = aerolíneas';
 
   // Stats
+  const totalW = routes.reduce((s,r)=>s+(r.weekly||0),0);
+  const domW   = domRoutes.reduce((s,r)=>s+(r.weekly||0),0);
+  const intlW  = intlRoutes.reduce((s,r)=>s+(r.weekly||0),0);
   document.getElementById('statsGrid').innerHTML = [
-    {v:totalW.toLocaleString(), l:'Vuelos / semana', s:'total', c:'#fff'},
-    {v:routes.length, l:'Destinos directos', s:`${domRoutes.length} dom · ${intlRoutes.length} intl`, c:'#bfdbfe'},
-    {v:domW.toLocaleString(), l:'Vuelos domésticos', s:`${domRoutes.length} destinos`, c:'#fdba74'},
-    {v:intlW.toLocaleString(), l:'Vuelos internacionales', s:`${intlRoutes.length} destinos`, c:'#86efac'},
-    {v:state.airlines.length, l:'Aerolíneas', s:'operadoras', c:'#c4b5fd'},
-  ].map(s => `
-    <div class="stat-box">
-      <div class="val" style="color:${s.c}">${s.v}</div>
-      <div class="lbl">${s.l}</div>
-      <div class="sub2">${s.s}</div>
-    </div>`).join('');
+    { v: isAL ? totalW.toLocaleString() : routes.length, l: isAL?'Vuelos/semana':'Destinos directos', s:`${domRoutes.length} dom · ${intlRoutes.length} intl`, c:'#fff' },
+    { v: isAL ? domW.toLocaleString() : domRoutes.length, l:'Domésticos', s:`${domRoutes.length} destinos`, c:'#fdba74' },
+    { v: isAL ? intlW.toLocaleString() : intlRoutes.length, l:'Internacionales', s:`${intlRoutes.length} destinos`, c:'#86efac' },
+    { v: state.airlines.length, l:'Aerolíneas', s:'operadoras', c:'#c4b5fd' },
+  ].map(s=>`<div class="stat-box"><div class="val" style="color:${s.c}">${s.v}</div><div class="lbl">${s.l}</div><div class="sub2">${s.s}</div></div>`).join('');
 
   renderMap();
-  renderCities(domRoutes, intlRoutes);
-  renderAirlines();
+  renderCities(domRoutes, intlRoutes, isAL);
+  renderAirlines(isAL);
 }
 
-// ── MAP ─────────────────────────────────────────────────────────────────────
-const COORDS = {
-  EZE:[-58.54,-34.82],AEP:[-58.42,-34.56],COR:[-64.52,-31.31],MDZ:[-68.79,-32.83],
-  ROS:[-60.78,-32.90],BRC:[-71.16,-41.15],SLA:[-65.49,-24.85],IGR:[-54.47,-25.74],
-  USH:[-68.30,-54.84],TUC:[-65.10,-26.84],SCL:[-70.79,-33.39],GRU:[-46.47,-23.43],
-  MAD:[-3.57,40.49],MIA:[-80.29,25.80],LHR:[-0.46,51.48],MVD:[-56.03,-34.84],
-  LIM:[-77.11,-12.02],BOG:[-74.15,4.70],ASU:[-57.52,-25.24],GIG:[-43.24,-22.81],
-  JFK:[-73.78,40.64],FRA:[8.57,50.03],CDG:[2.55,49.01],PTY:[-79.38,9.07],
-  BCN:[2.08,41.30],LIS:[-9.14,38.78],FCO:[12.24,41.80],AMS:[4.76,52.31],
-  MEX:[-99.07,19.44],DXB:[55.36,25.25],ATL:[-84.43,33.64],LAX:[-118.41,33.94],
-  ORD:[-87.90,41.98],BOS:[-71.00,42.37],SFO:[-122.38,37.62],HAV:[-82.41,22.99],
-  EDI:[-3.37,55.95],MAN:[-2.27,53.35],SIN:[103.99,1.36],HKG:[113.92,22.31],
-  SYD:[151.18,-33.95],NRT:[140.39,35.77],PMI:[2.74,39.55],VLC:[-0.48,39.49],
-  AGP:[-4.50,36.67],SVQ:[-5.90,37.42],BIO:[-2.91,43.30],TFN:[-16.34,28.48],
-  LPA:[-15.39,27.93],DFW:[-97.04,32.90],LGA:[-73.87,40.78],DCA:[-77.04,38.85],
-  GLA:[-4.43,55.87],VVI:[-63.14,-17.64],UIO:[-78.49,-0.13],BHX:[-1.75,52.45],
-  CPT:[18.60,-33.96],NBO:[36.92,-1.32],CAI:[31.41,30.12],DUB:[-6.27,53.42],
-  ZRH:[8.55,47.46],VIE:[16.57,48.11],MUC:[11.79,48.35],GVA:[6.11,46.23],
-  CPH:[12.66,55.62],ARN:[17.92,59.76],HEL:[24.96,60.32],WAW:[14.10,52.17],
-  IST:[28.81,41.00],DOH:[51.61,25.27],KUL:[101.71,2.74],BKK:[100.75,13.69],
-  PEK:[116.59,40.08],PVG:[121.81,31.14],ICN:[126.45,37.46],BOM:[72.87,19.09],
-  DEL:[77.10,28.57],JNB:[28.25,-26.13],AKL:[174.79,-36.87],YYZ:[-79.63,43.68],
-  YVR:[-123.18,49.19],GRU:[-46.47,-23.43],CNF:[-43.97,-19.62],FOR:[-38.53,-3.78],
-  REC:[-34.92,-8.13],SSA:[-38.33,-12.91],POA:[-51.18,-29.99],CWB:[-49.17,-25.53],
-  MDE:[-75.59,6.17],CLO:[-76.38,3.54],UIO:[-78.49,-0.13],GYE:[-79.89,-2.16],
-  LPB:[-68.19,-16.51],CBB:[-66.18,-17.42],SCZ:[-63.14,-17.64],
-  MGF:[-52.01,-23.48],NVT:[-48.65,-26.88],FLN:[-48.55,-27.67],
-  PMW:[-48.36,-10.29],BSB:[-47.92,-15.87],CGH:[-46.66,-23.63],
-};
-
+// ── MAP ───────────────────────────────────────────────────────────────────────
 async function renderMap() {
   const svg = d3.select('#map-svg');
   svg.selectAll('*').remove();
   const W = document.getElementById('panel-map').clientWidth - 48;
   const H = Math.round(W * 0.5);
-  svg.attr('width', W).attr('height', H);
+  svg.attr('width',W).attr('height',H);
+
+  function getCoords(iata) {
+    if (state.of.loaded && state.of.airports[iata]) { const a=state.of.airports[iata]; return [a[3],a[2]]; }
+    return FALLBACK_COORDS[iata] || null;
+  }
 
   try {
     const world = await fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json').then(r=>r.json());
@@ -550,130 +1170,136 @@ async function renderMap() {
 
     svg.append('rect').attr('width',W).attr('height',H).attr('fill','#f0f9ff');
     svg.append('path').datum({type:'Sphere'}).attr('d',path).attr('fill','#dbeafe');
-    svg.append('path').datum(d3.geoGraticule()()).attr('d',path).attr('fill','none').attr('stroke','#bfdbfe').attr('stroke-width',.4);
-    const ctrs = topojson.feature(world, world.objects.countries);
-    svg.selectAll('.land').data(ctrs.features).enter()
-      .append('path').attr('class','land').attr('d',path)
-      .attr('fill','#e2e8f0').attr('stroke','#cbd5e1').attr('stroke-width',.4);
+    svg.append('path').datum(d3.geoGraticule()()).attr('d',path).attr('fill','none').attr('stroke','#bfdbfe').attr('stroke-width',.3);
+    const ctrs = topojson.feature(world,world.objects.countries);
+    svg.selectAll('.land').data(ctrs.features).enter().append('path').attr('class','land').attr('d',path).attr('fill','#e2e8f0').attr('stroke','#cbd5e1').attr('stroke-width',.3);
 
-    const airport = state.airport;
-    const orig = COORDS[airport.iata_code] || [airport.lng, airport.lat];
-    const maxW = Math.max(...state.routes.map(r=>r.weekly||1));
+    const allApts = state.airports || [state.airport];
+    const origCoords = {};
+    allApts.forEach(a => { const iata=a.iata_code||a.iata; const c=getCoords(iata); if(c) origCoords[iata]=c; });
+    if (!Object.keys(origCoords).length) return;
 
-    // Arcos más finos primero
+    const primaryOrig = Object.values(origCoords)[0];
+    const maxW = Math.max(...state.routes.map(r=>r.weekly||1),1);
+    const isMultiOrig = Object.keys(origCoords).length > 1;
+
     [...state.routes].sort((a,b)=>(a.weekly||0)-(b.weekly||0)).forEach(r => {
-      const dest = COORDS[r.arr_iata];
-      if (!dest) return;
-      svg.append('path')
-        .datum({type:'LineString',coordinates:[orig,dest]})
-        .attr('d',path).attr('fill','none')
-        .attr('stroke',r.domestic?'#f97316':'#2563eb')
-        .attr('stroke-width',Math.max(.7,((r.weekly||1)/maxW)*3.5))
-        .attr('stroke-opacity',.65).attr('stroke-linecap','round');
+      const orig = (r.origin_iata && origCoords[r.origin_iata]) || primaryOrig;
+      const dest = getCoords(r.arr_iata);
+      if (!orig||!dest) return;
+      svg.append('path').datum({type:'LineString',coordinates:[orig,dest]}).attr('d',path)
+        .attr('fill','none').attr('stroke',r.domestic?'#f97316':'#2563eb')
+        .attr('stroke-width',Math.max(.6,((r.weekly||1)/maxW)*3.5))
+        .attr('stroke-opacity',.6).attr('stroke-linecap','round');
     });
 
-    // Puntos destino
     state.routes.forEach(r => {
-      const dest = COORDS[r.arr_iata];
-      if (!dest) return;
-      const p = proj(dest);
-      if (!p) return;
-      svg.append('circle').attr('cx',p[0]).attr('cy',p[1]).attr('r',2.8)
-        .attr('fill',r.domestic?'#f97316':'#2563eb')
-        .attr('stroke','#fff').attr('stroke-width',1);
+      const dest = getCoords(r.arr_iata); if(!dest) return;
+      const p = proj(dest); if(!p) return;
+      svg.append('circle').attr('cx',p[0]).attr('cy',p[1]).attr('r',2.6).attr('fill',r.domestic?'#f97316':'#2563eb').attr('stroke','#fff').attr('stroke-width',.8);
     });
 
-    // Punto origen
-    const op = proj(orig);
-    if (op) {
-      svg.append('circle').attr('cx',op[0]).attr('cy',op[1]).attr('r',14)
-        .attr('fill','none').attr('stroke','#dc2626').attr('stroke-width',.8).attr('opacity',.2);
-      svg.append('circle').attr('cx',op[0]).attr('cy',op[1]).attr('r',7)
-        .attr('fill','none').attr('stroke','#dc2626').attr('stroke-width',1.5).attr('opacity',.5);
-      svg.append('circle').attr('cx',op[0]).attr('cy',op[1]).attr('r',4)
-        .attr('fill','#dc2626').attr('stroke','#fff').attr('stroke-width',2);
-    }
+    Object.entries(origCoords).forEach(([iata,orig]) => {
+      const op = proj(orig); if(!op) return;
+      svg.append('circle').attr('cx',op[0]).attr('cy',op[1]).attr('r',13).attr('fill','none').attr('stroke','#dc2626').attr('stroke-width',.7).attr('opacity',.2);
+      svg.append('circle').attr('cx',op[0]).attr('cy',op[1]).attr('r',6).attr('fill','none').attr('stroke','#dc2626').attr('stroke-width',1.4).attr('opacity',.5);
+      svg.append('circle').attr('cx',op[0]).attr('cy',op[1]).attr('r',4).attr('fill','#dc2626').attr('stroke','#fff').attr('stroke-width',1.5);
+      if (isMultiOrig) svg.append('text').attr('x',op[0]).attr('y',op[1]-9).attr('text-anchor','middle').attr('fill','#dc2626').attr('font-size','9px').attr('font-weight','700').attr('stroke','#fff').attr('stroke-width',2).attr('paint-order','stroke').text(iata);
+    });
   } catch(e) {
     svg.append('text').attr('x',W/2).attr('y',H/2).attr('text-anchor','middle').attr('fill','#94a3b8').text('No se pudo cargar el mapa');
   }
 }
 
-// ── CITIES ──────────────────────────────────────────────────────────────────
-function renderCities(domRoutes, intlRoutes) {
-  const airport = state.airport;
-  document.getElementById('citiesSub').textContent =
-    `${state.routes.length} destinos con vuelo directo desde ${airport.city||airport.name}`;
+const FALLBACK_COORDS = {EZE:[-58.54,-34.82],AEP:[-58.42,-34.56],COR:[-64.52,-31.31],MDZ:[-68.79,-32.83],ROS:[-60.78,-32.90],BRC:[-71.16,-41.15],SLA:[-65.49,-24.85],IGR:[-54.47,-25.74],USH:[-68.30,-54.84],TUC:[-65.10,-26.84],SCL:[-70.79,-33.39],GRU:[-46.47,-23.43],MAD:[-3.57,40.49],MIA:[-80.29,25.80],LHR:[-0.46,51.48],MVD:[-56.03,-34.84],LIM:[-77.11,-12.02],BOG:[-74.15,4.70],ASU:[-57.52,-25.24],JFK:[-73.78,40.64],FRA:[8.57,50.03],CDG:[2.55,49.01],PTY:[-79.38,9.07],BCN:[2.08,41.30],LIS:[-9.14,38.78],FCO:[12.24,41.80],AMS:[4.76,52.31],MEX:[-99.07,19.44],DXB:[55.36,25.25],ATL:[-84.43,33.64],LAX:[-118.41,33.94],DOH:[51.61,25.27],SIN:[103.99,1.36],NRT:[140.39,35.77],SYD:[151.18,-33.95],GIG:[-43.24,-22.81],CGH:[-46.66,-23.63],NBO:[36.92,-1.32],JNB:[28.25,-26.13]};
 
-  const maxW = state.routes[0]?.weekly || 1;
+// ── CITIES ─────────────────────────────────────────────────────────────────
+function renderCities(domRoutes, intlRoutes, isAL) {
+  const airport = state.airport;
+  const showOrigin = (state.airports||[]).length > 1;
+  document.getElementById('citiesSub').textContent = `${state.routes.length} destinos con vuelo directo desde ${airport.city||airport.name}`;
+  const maxW = Math.max(...state.routes.map(r=>r.weekly||0),1);
   let html = '';
 
   [[domRoutes,'#f97316','#fff7ed','Vuelos Domésticos'],
    [intlRoutes,'#2563eb','#eff6ff','Vuelos Internacionales']].forEach(([rows,color,bg,label]) => {
     if (!rows.length) return;
-    const secW = rows.reduce((s,r)=>s+(r.weekly||0),0);
-    html += `<div class="section-mb">
-      <div class="section-hdr" style="border-bottom:2px solid ${bg}">
-        <div class="dot2" style="background:${color}"></div>
-        <h3 style="font-size:15px;font-weight:700;color:${color}">${label}</h3>
-        <span style="font-size:12px;color:#94a3b8">· ${rows.length} destinos · ${secW.toLocaleString()} vuelos/semana</span>
-      </div>`;
+    html += `<div class="section-mb"><div class="section-hdr" style="border-bottom:2px solid ${bg}"><div class="dot2" style="background:${color}"></div><h3 style="font-size:14px;font-weight:700;color:${color}">${label}</h3><span style="font-size:12px;color:#94a3b8">· ${rows.length} destinos</span></div>`;
     rows.forEach((r,i) => {
       const pct = Math.round((r.weekly||0)/maxW*100);
+      let cityName = r.city||'', countryName = r.country||'';
+      if (!cityName && state.of.loaded && state.of.airports[r.arr_iata]) { const a=state.of.airports[r.arr_iata]; cityName=a[0]; countryName=a[1]; }
+      const cityLine = cityName ? `${cityName}${countryName?`, <span style="color:#94a3b8;font-weight:400">${countryName}</span>`:''}` : r.arr_iata;
+      const originBadge = showOrigin && r.origin_iata ? `<span class="origin-badge ${r.domestic?'dom':'intl'}">desde ${r.origin_iata}</span>` : '';
+      const metricNum = isAL ? (r.weekly||0).toLocaleString() : (r.weekly||0);
+      const metricLbl = isAL ? 'v/sem' : 'aerolíneas';
       html += `<div class="route-row">
         <span class="route-num">${i+1}</span>
         <span class="route-iata">${r.arr_iata}</span>
         <div>
-          <div class="route-city">${r.arr_iata}</div>
-          <div class="route-airlines">${r.airlines.slice(0,4).join(' · ')}${r.airlines.length>4?' +'+(r.airlines.length-4):''}</div>
+          <div class="route-city">${cityLine}</div>
+          <div class="al-line">${formatAirlines(r.airlines,3)}${originBadge}</div>
         </div>
-        <div class="route-weekly">
-          <div class="num" style="color:${color}">${(r.weekly||0).toLocaleString()}</div>
-          <div class="lbl">vuelos/sem</div>
-        </div>
-        <div>
-          <div class="bar-bg" style="background:${bg}">
-            <div class="bar-fill" style="background:${color};width:${pct}%"></div>
-          </div>
-        </div>
+        <div class="route-weekly"><div class="num" style="color:${color}">${metricNum}</div><div class="lbl">${metricLbl}</div></div>
+        <div><div class="bar-bg" style="background:${bg}"><div class="bar-fill" style="background:${color};width:${pct}%"></div></div></div>
       </div>`;
     });
-    html += `</div>`;
+    html += '</div>';
   });
   document.getElementById('citiesContent').innerHTML = html;
 }
 
 // ── AIRLINES ────────────────────────────────────────────────────────────────
-function renderAirlines() {
+function renderAirlines(isAL) {
   const airport = state.airport;
   const airlines = state.airlines;
-  const maxW = airlines[0]?.weekly || 1;
+  const maxR = Math.max(...airlines.map(a=>a.routes),1);
+  document.getElementById('airlinesSub').textContent = `${airlines.length} aerolíneas desde ${airport.city||airport.name}`;
 
-  document.getElementById('airlinesSub').textContent =
-    `${airlines.length} aerolíneas con rutas directas desde ${airport.city||airport.name}`;
-
-  let html = `<table class="tbl">
-    <thead><tr>
-      <th>Aerolínea</th>
-      <th class="c">V/semana</th>
-      <th class="c">Dom.</th>
-      <th class="c">Intl.</th>
-      <th class="c">Destinos</th>
-      <th></th>
-    </tr></thead><tbody>`;
-
+  let html = `<table class="tbl"><thead><tr>
+    <th>Aerolínea</th>
+    <th class="c">${isAL?'V/semana':'Rutas'}</th>
+    <th class="c">Dom.</th>
+    <th class="c">Intl.</th>
+    <th class="c">Destinos</th>
+    <th></th>
+  </tr></thead><tbody>`;
   airlines.forEach(a => {
-    const pct = Math.round((a.weekly/maxW)*100);
+    const pct = Math.round((a.routes/maxR)*100);
+    const name = getAirlineName(a.code);
+    const mainVal = isAL ? `<div class="tbl-num">${a.weekly.toLocaleString()}</div><div class="tbl-sub">${Math.round(a.weekly/7)}/día</div>` : `<div class="tbl-num">${a.routes}</div>`;
     html += `<tr>
-      <td style="font-weight:700">${a.code}</td>
-      <td class="c"><div class="tbl-weekly">${a.weekly.toLocaleString()}</div><div class="tbl-day">${Math.round(a.weekly/7)}/día</div></td>
+      <td><span style="font-weight:700">${a.code}</span>${name!==a.code?`<br><span style="font-size:11px;color:#64748b">${name}</span>`:''}</td>
+      <td class="c">${mainVal}</td>
       <td class="c tbl-dom">${a.domestic}</td>
       <td class="c tbl-intl">${a.international}</td>
       <td class="c" style="color:#64748b">${a.routes}</td>
-      <td style="padding:0 14px"><div class="tbl-bar-bg"><div class="tbl-bar-fill" style="width:${pct}%"></div></div></td>
+      <td style="padding:0 13px"><div class="tbl-bar-bg"><div class="tbl-bar-fill" style="width:${pct}%"></div></div></td>
     </tr>`;
   });
   html += '</tbody></table>';
   document.getElementById('airlinesContent').innerHTML = html;
+}
+
+// ── HELPERS ──────────────────────────────────────────────────────────────────
+function getAirlineName(code) {
+  return (state.of.airlineNames && state.of.airlineNames[code]) || code;
+}
+
+function formatAirlines(codes, max=3) {
+  if (!codes||!codes.length) return '';
+  const items = codes.slice(0,max).map(code => {
+    const name = getAirlineName(code);
+    return `<span class="al-item"><span class="al-code">${code}</span>${name!==code?`<span class="al-name">${name}</span>`:''}</span>`;
+  }).join('<span class="al-sep">·</span>');
+  const extra = codes.length>max ? `<span class="al-more">+${codes.length-max} más</span>` : '';
+  return items + extra;
+}
+
+function parseCSV(line) {
+  const row=[]; let inQ=false, cur='';
+  for(let i=0;i<line.length;i++){const c=line[i];if(c==='"'){inQ=!inQ;continue;}if(c===','&&!inQ){row.push(cur);cur='';continue;}cur+=c;}
+  row.push(cur); return row;
 }
 </script>
 </body>
