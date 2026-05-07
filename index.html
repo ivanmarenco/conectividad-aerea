@@ -473,10 +473,10 @@ async function loadOFData() {
     const routes = {};
     for (const line of routesText.split('\n')) {
       const row = line.split(',');
-      if (row.length < 6) continue;
+      if (row.length < 5) continue;
       const dep = row[2].trim(), arr = row[4].trim();
       if (dep.length !== 3 || arr.length !== 3) continue;
-      if ((row[6]||'').trim() === 'Y' || (row[7]||'0').trim() !== '0') continue;
+      if (dep === '\\N' || arr === '\\N') continue;
       if (!airports[dep] || !airports[arr]) continue;
       if (!routes[dep]) routes[dep] = {};
       if (!routes[dep][arr]) routes[dep][arr] = [];
@@ -507,12 +507,31 @@ async function loadOAData() {
   try {
     // Load OurAirports airports + OpenFlights routes in parallel
     showProgress('Descargando aeropuertos y rutas...', 15);
-    const [oaResp, routesResp, airlinesResp] = await Promise.all([
-      fetch('https://ourairports.com/data/airports.csv'),
+
+    // OurAirports: try primary URL first, then GitHub mirror as fallback
+    const OA_URLS = [
+      'https://ourairports.com/data/airports.csv',
+      'https://raw.githubusercontent.com/davidmegginson/ourairports-data/main/airports.csv',
+    ];
+    let oaText = null;
+    for (const url of OA_URLS) {
+      try {
+        const r = await fetch(url);
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        oaText = await r.text();
+        // Sanity check: first line should contain known OurAirports columns
+        if (!oaText.includes('iata_code') || !oaText.includes('municipality')) throw new Error('Formato inesperado');
+        break;
+      } catch(e) { oaText = null; }
+    }
+    if (!oaText) throw new Error('No se pudo descargar el dataset de OurAirports.');
+
+    const [routesResp, airlinesResp] = await Promise.all([
       fetch('https://raw.githubusercontent.com/jpatokal/openflights/master/data/routes.dat'),
       fetch('https://raw.githubusercontent.com/jpatokal/openflights/master/data/airlines.dat'),
     ]);
-    const [oaText, routesText, airlinesText] = await Promise.all([oaResp.text(), routesResp.text(), airlinesResp.text()]);
+    if (!routesResp.ok || !airlinesResp.ok) throw new Error('Error descargando rutas OpenFlights.');
+    const [routesText, airlinesText] = await Promise.all([routesResp.text(), airlinesResp.text()]);
     showProgress('Procesando aeropuertos OurAirports...', 55);
 
     // Parse OurAirports CSV (has header row)
@@ -552,10 +571,10 @@ async function loadOAData() {
     const routes = {};
     for (const line of routesText.split('\n')) {
       const row = line.split(',');
-      if (row.length < 6) continue;
+      if (row.length < 5) continue;
       const dep = row[2].trim(), arr = row[4].trim();
       if (dep.length !== 3 || arr.length !== 3) continue;
-      if ((row[6]||'').trim() === 'Y' || (row[7]||'0').trim() !== '0') continue;
+      if (dep === '\\N' || arr === '\\N') continue;
       // Use OA airports if available, else skip
       if (!oaAirports[dep] || !oaAirports[arr]) continue;
       if (!routes[dep]) routes[dep] = {};
